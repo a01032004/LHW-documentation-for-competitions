@@ -2,7 +2,7 @@ import tkinter
 from tkinter import ttk
 
 from classes.Participant import Participant
-from classes.Table import Table
+from classes.Team import Team
 
 
 # Создаем главное окно
@@ -12,7 +12,7 @@ root.title("Таблицы с названиями команд и списка�
 
 
 # Создаем функцию для создания таблицы
-def create_table(frame, title, table : Table):
+def create_table(frame, title, table : Team):
     label0 = tkinter.Label(frame, text=title)
     label1 = tkinter.Label(frame, text='id')
     label2 = tkinter.Label(frame, text="name")
@@ -44,7 +44,7 @@ def create_window():
 part1 = Participant("M", 20, "Dima", 1)
 part2 = Participant("Z", 21, "Yana", 2)
 
-tabla = Table([part1, part2])
+tabla = Team([part1, part2])
 
 #frame1 = tkinter.Frame(root)
 #frame1.pack(side=tkinter.LEFT)

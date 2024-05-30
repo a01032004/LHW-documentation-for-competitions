@@ -1,7 +1,7 @@
 from classes.Participant import Participant
 
 
-class Table:
+class Team:
     def __init__(self, participant_arr = []):
         self.arr = participant_arr
 
