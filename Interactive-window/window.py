@@ -14,8 +14,9 @@ mainframe = tkinter.Frame(root)
 mainframe.pack(side="top", anchor="w")
 
 
-def get_entries(entry_id, entry_name, entry_age, entry_sex, p: Participant):
-    p = Participant(entry_id.get(), entry_name.get(), entry_age.get(), entry_sex.get())
+# В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
+def apply_changes(entry_id, entry_name, entry_age, entry_sex, p: Participant):
+    pass
 
 def edit_menu(participant_to_edit : Participant):
 
@@ -46,7 +47,7 @@ def edit_menu(participant_to_edit : Participant):
     entry_sex = tkinter.Entry(edit_window)
     entry_sex.insert(-1, participant_to_edit.sex)
     entry_sex.grid(row=1, column=3)
-    tkinter.Button(edit_window, command=lambda: get_entries(entry_id, entry_name, entry_age, entry_sex, participant_to_edit), text="Сохранить").grid(row=1, column=4)
+    tkinter.Button(edit_window, command=lambda: apply_changes(entry_id, entry_name, entry_age, entry_sex, participant_to_edit), text="Сохранить").grid(row=1, column=4)
 
 # Создаем функцию для создания таблицы
 def create_table(team : Team):
@@ -84,12 +85,9 @@ part2 = Participant(2, "Yana", 21, "Z")
 
 team = Team([part1, part2])
 
-
 # Создаем фреймы для каждой таблицы
 create_table(team)
-
 create_table(team)
-
 create_table(team)
 
 # Запускаем главный цикл обработки событий
