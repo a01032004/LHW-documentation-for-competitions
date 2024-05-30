@@ -4,15 +4,6 @@ from classes.Participant import Participant
 from classes.Team import Team
 
 
-# Создаем главное окно
-root = tkinter.Tk()
-root.minsize(700, 250)
-root.title("Таблицы с названиями команд и списками участников")
-
-# Здесь должны находиться все фреймы, относящиеся к командам
-mainframe = tkinter.Frame(root)
-mainframe.pack(side="top", anchor="w")
-
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
 def apply_changes(entry_id, entry_name, entry_age, entry_sex, p: Participant):
@@ -50,7 +41,7 @@ def edit_menu(participant_to_edit : Participant):
     tkinter.Button(edit_window, command=lambda: apply_changes(entry_id, entry_name, entry_age, entry_sex, participant_to_edit), text="Сохранить").grid(row=1, column=4)
 
 # Создаем функцию для создания таблицы
-def create_table(team : Team):
+def create_table(team : Team, mainframe):
     frame = tkinter.Frame(mainframe)
     frame.pack(side=tkinter.LEFT)
 
@@ -76,19 +67,33 @@ def create_table(team : Team):
         tkinter.Button(frame, text="Edit", command=lambda: edit_menu(team.arr[i])).grid(row=i + 2, column=4)
 
 
-def create_window():
-    pass
+def create_window(teams_arr: list):
+
+    # Создаем главное окно
+    root = tkinter.Tk()
+    root.minsize(700, 250)
+    root.title("Таблицы с названиями команд и списками участников")
+
+    # Здесь должны находиться все фреймы, относящиеся к командам
+    mainframe = tkinter.Frame(root)
+    mainframe.pack(side="top", anchor="w")
+
+    for i in range(0, teams_arr.__len__()):
+        create_table(teams_arr[i], mainframe)
+
+    # Запускаем главный цикл обработки событий
+    root.mainloop()
 
 
 part1 = Participant(1, "Dima", 20, "M")
 part2 = Participant(2, "Yana", 21, "Z")
+team1 = Team([part1, part2])
+team2 = Team([part2, part1])
+team3 = Team([part2, part1])
+team4 = Team([part2, part1])
 
-team = Team([part1, part2])
+teams = [team1, team2, team3, team4]
 
-# Создаем фреймы для каждой таблицы
-create_table(team)
-create_table(team)
-create_table(team)
+create_window(teams)
 
-# Запускаем главный цикл обработки событий
-root.mainloop()
+
