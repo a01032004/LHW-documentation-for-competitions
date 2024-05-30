@@ -4,7 +4,7 @@ class Participant:
     """
 
     """
-    def __init__(self, _id=0, name="Prohor", age=18, sex="M"):
+    def __init__(self, _id=-1, name="", age=-1, sex=""):
         self.sex = sex
         self.age = age
         self.name = name
