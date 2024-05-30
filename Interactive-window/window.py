@@ -1,41 +1,62 @@
 import tkinter
 from tkinter import ttk
 
+from classes.Participant import Participant
+from classes.Table import Table
+
+
 # Создаем главное окно
 root = tkinter.Tk()
+root.minsize(700, 250)
 root.title("Таблицы с названиями команд и списками участников")
+
 
 # Создаем функцию для создания таблицы
 def create_table(frame, title):
-    label = tkinter.Label(frame, text=title)
-    label.pack()
-
-    tree = ttk.Treeview(frame)
-    tree["columns"] = ("name", "age", "sex")  # Задаем столбцы таблицы
-    tree.column("#0", width=100, minwidth=100)
-    tree.column("name", anchor=tkinter.W, width=100)
-    tree.column("age", anchor=tkinter.W, width=100)
-    tree.column("sex", anchor=tkinter.W, width=100)
-
-    tree.heading('#0', text='ID', anchor=tkinter.W)
-    tree.heading('name', text='Имя', anchor=tkinter.W)
-    tree.heading('age', text='Возраст', anchor=tkinter.W)
-    tree.heading('sex', text='Пол', anchor=tkinter.W)
-
-    tree.pack()
+    label0 = tkinter.Label(frame, text=title)
+    label1 = tkinter.Label(frame, text='id')
+    label2 = tkinter.Label(frame, text="name")
+    label3 = tkinter.Label(frame, text="age")
+    label4 = tkinter.Label(frame, text="sex")
+    label0.grid(row=0, column=0, columnspan=4,stick="we")
+    label1.grid(row=1, column=0)
+    label2.grid(row=1, column=1)
+    label3.grid(row=1, column=2)
+    label4.grid(row=1, column=3)
 
 
+    frame.grid_columnconfigure(0, minsize=50)
+    frame.grid_columnconfigure(1, minsize=50)
+    frame.grid_columnconfigure(2, minsize=50)
+    frame.grid_columnconfigure(3, minsize=50)
+
+
+def create_window():
+    pass
+
+
+#part1 = Participant("M", 20, "Dima", 1)
+#part2 = Participant("Z", 21, "Yana", 2)
+
+#tabla = Table([part1, part2])
+
+#frame1 = tkinter.Frame(root)
+#frame1.pack(side=tkinter.LEFT)
+#create_table(frame1, "Команда 1", tabla)
+
+mainframe = tkinter.Frame(root)
+mainframe.pack(side="top", anchor="w")
 # Создаем фреймы для каждой таблицы
-frame1 = tkinter.Frame(root)
+frame1 = tkinter.Frame(mainframe)
 frame1.pack(side=tkinter.LEFT)
 create_table(frame1, "Команда 1")
 
-frame2 = tkinter.Frame(root)
+frame2 = tkinter.Frame(mainframe)
 frame2.pack(side=tkinter.LEFT)
 create_table(frame2, "Команда 2")
 
-frame3 = tkinter.Frame(root)
-frame3.pack(side=tkinter.RIGHT)
+frame3 = tkinter.Frame(mainframe)
+frame3.pack(side=tkinter.LEFT)
 create_table(frame3, "Команда 3")
 
 # Запускаем главный цикл обработки событий
