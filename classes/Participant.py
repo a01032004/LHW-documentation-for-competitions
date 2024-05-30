@@ -9,6 +9,8 @@ class Participant:
         self.age = age
         self.name = name
         self.id = _id
+        self.finish_time = "0:00"
+        self.start_time = "0:00"
 
     def edit_sex(self, sex):
         self.sex = sex
