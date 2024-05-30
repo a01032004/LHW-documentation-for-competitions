@@ -10,9 +10,16 @@ root = tkinter.Tk()
 root.minsize(700, 250)
 root.title("Таблицы с названиями команд и списками участников")
 
+# Здесь должны находиться все фреймы, относящиеся к командам
+mainframe = tkinter.Frame(root)
+mainframe.pack(side="top", anchor="w")
+
 
 # Создаем функцию для создания таблицы
-def create_table(frame, title, table : Team):
+def create_table(title, table : Team):
+    frame = tkinter.Frame(mainframe)
+    frame.pack(side=tkinter.LEFT)
+
     label0 = tkinter.Label(frame, text=title)
     label1 = tkinter.Label(frame, text='id')
     label2 = tkinter.Label(frame, text="name")
@@ -46,24 +53,13 @@ part2 = Participant("Z", 21, "Yana", 2)
 
 tabla = Team([part1, part2])
 
-#frame1 = tkinter.Frame(root)
-#frame1.pack(side=tkinter.LEFT)
-#create_table(frame1, "Команда 1", tabla)
 
-mainframe = tkinter.Frame(root)
-mainframe.pack(side="top", anchor="w")
 # Создаем фреймы для каждой таблицы
-frame1 = tkinter.Frame(mainframe)
-frame1.pack(side=tkinter.LEFT)
-create_table(frame1, "Команда 1",tabla)
+create_table("Команда 1", tabla)
 
-frame2 = tkinter.Frame(mainframe)
-frame2.pack(side=tkinter.LEFT)
-create_table(frame2, "Команда 2",tabla)
+create_table("Команда 2", tabla)
 
-frame3 = tkinter.Frame(mainframe)
-frame3.pack(side=tkinter.LEFT)
-create_table(frame3, "Команда 3",tabla)
+create_table("Команда 3", tabla)
 
 # Запускаем главный цикл обработки событий
 root.mainloop()
