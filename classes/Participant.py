@@ -4,11 +4,13 @@ class Participant:
     """
 
     """
-    def __init__(self, _id=-1, name="", age=-1, sex=""):
+    def __init__(self, _id=-1, name="", age=-1, sex="", rank="рядовой", group=1):
         self.sex = sex
         self.age = age
         self.name = name
         self.id = _id
+        self.rank = rank
+        self.group = group
         self.finish_time = "0:00"
         self.start_time = "0:00"
 
