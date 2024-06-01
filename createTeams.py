@@ -17,7 +17,7 @@ sheet = wb['Первый лист']
 
 # создаем именованный стиль
 ns = NamedStyle(name='highlight')
-ns.font = Font(bold=True, size=20)
+ns.font = Font(bold=True, size=20, b = True)
 border = Side(style='thick', color='000000')
 ns.border = Border(left=border, top=border, right=border, bottom=border)
 wb.add_named_style(ns)
@@ -27,14 +27,17 @@ wb.add_named_style(ns)
 sheet.merge_cells('A1:I1')
 sheet['A1'].value = 'СТАРТОВЫЙ ПРОТОКОЛ'
 sheet['A1'].alignment = Alignment(horizontal='center')
+sheet["A1"].font = Font(bold=True)
 
 sheet.merge_cells('A2:I2')
 sheet['A2'].value = 'СОРЕВНОВАНИЙ ПО ЛЫЖНЫМ ГОНКАМ'
 sheet['A2'].alignment = Alignment(horizontal='center')
+sheet["A2"].font = Font(bold=True)
 
 sheet.merge_cells('A3:I3')
 sheet['A3'].value = 'СПАРТАКИАДЫ А'
 sheet['A3'].alignment = Alignment(horizontal='center')
+sheet["A3"].font = Font(bold=True)
 
 sheet.merge_cells('A4:I4')
 #получаем группу соревнований
@@ -46,6 +49,7 @@ if (type_competition == 2):
 if (type_competition == 3):
     sheet['A4'].value = 'среди переменного состава (женщины)'
 sheet['A4'].alignment = Alignment(horizontal='center')
+sheet["A4"].font = Font(bold=True)
 
 
 sheet.merge_cells('A6:D6')
@@ -93,14 +97,23 @@ sheet['F10'].alignment = Alignment(horizontal='center', vertical="center", wrapT
 sheet['G10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
 sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
 
-sheet.row_dimensions[10].height = 52
+sheet["A10"].font = Font(bold=True)
+sheet["B10"].font = Font(bold=True)
+sheet["C10"].font = Font(bold=True)
+sheet["D10"].font = Font(bold=True)
+sheet["E10"].font = Font(bold=True)
+sheet["F10"].font = Font(bold=True)
+sheet["G10"].font = Font(bold=True)
+sheet["H10"].font = Font(bold=True)
 
+sheet.row_dimensions[10].height = 58
+sheet.column_dimensions['H'].width =10
 sheet.column_dimensions['D'].width = 38
 
 
 
 
-
+ns.font = Font(bold=False, size=20, b = False)
 ####pass    заполнение данных   ######
 count_peopple = 9
 
