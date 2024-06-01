@@ -3,7 +3,7 @@ import tkinter
 from classes.Participant import Participant
 from classes.Team import Team
 
-
+MAIN_TEAM_ARRAY =[]
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
 def apply_changes(entry_id, entry_name, entry_age, entry_sex, p: Participant, window):
@@ -134,12 +134,15 @@ def create_window(teams_arr: list, is_end: bool):
 
 
 def create_team(entry_name, entry_something, create_team_menu):
+    team = Team([], entry_name.get(), entry_something.get())
+    global MAIN_TEAM_ARRAY
+    MAIN_TEAM_ARRAY.append(team)
     create_team_menu.destroy()
+    create_window(MAIN_TEAM_ARRAY, False)
 
-    team = Team(entry_name.get(), entry_something.get())
 
-
-def create_team_window():
+def create_team_window(root):
+    root.destroy()
     create_team_menu = tkinter.Tk()
     create_team_menu.minsize(250, 100)
     create_team_menu.title("Изменение участника команды")
@@ -173,7 +176,7 @@ def create_first_window():
 
     start_button_frame = tkinter.Frame(root)
 
-    start_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: )
+    start_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
     start_button_frame.grid(row=1, column=1)
     start_button.pack(padx=50, pady=50)
 
