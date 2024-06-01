@@ -95,8 +95,36 @@ sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapT
 
 sheet.row_dimensions[10].height = 52
 
+sheet.column_dimensions['D'].width = 38
 
-####pass######
+
+
+
+
+####pass    заполнение данных   ######
+count_peopple = 9
+
+
+
+
+
+
+
+
+
+#аполнение подписей
+sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
+sheet[f"A{count_peopple + 14}"].value = 'Главный судья'
+sheet[f"A{count_peopple + 14}"].alignment = Alignment(horizontal='left')
+sheet.merge_cells(f"E{count_peopple + 14}:F{count_peopple + 14}")
+sheet[f"E{count_peopple + 14}"].value = 'А.А.Ааааа'
+
+sheet.merge_cells(f"A{count_peopple + 15}:C{count_peopple + 15}")
+sheet[f"A{count_peopple + 15}"].value = 'Главный секретарь'
+sheet[f"A{count_peopple + 15}"].alignment = Alignment(horizontal='left')
+sheet.merge_cells(f"E{count_peopple + 15}:F{count_peopple + 15}")
+sheet[f"E{count_peopple + 15}"].value = 'Б.Б.Ббббб'
+
 
 # записываем файл
 wb.save('start.xlsx')
