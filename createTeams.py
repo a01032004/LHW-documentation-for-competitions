@@ -17,7 +17,7 @@ sheet = wb['Первый лист']
 
 # создаем именованный стиль
 ns = NamedStyle(name='highlight')
-ns.font = Font(bold=True, size=18)
+ns.font = Font(bold=True, size=20)
 border = Side(style='thick', color='000000')
 ns.border = Border(left=border, top=border, right=border, bottom=border)
 wb.add_named_style(ns)
@@ -75,6 +75,28 @@ sheet['E8'].alignment = Alignment(horizontal='left')
 
 
 
+#Заполнение таблицы
+sheet['A10'].value = '№'
+sheet['B10'].value = 'Стартовый номер'
+sheet['C10'].value = 'Воинское звание'
+sheet['D10'].value = 'Ф.И.О.'
+sheet['E10'].value = 'Возраст'
+sheet['F10'].value = 'Команда'
+sheet['G10'].value = 'Время старта'
+sheet['H10'].value = 'Отметка о выходе со старта'
+sheet['A10'].alignment = Alignment(horizontal='center', vertical="center")
+sheet['B10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['C10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['D10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['E10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['F10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['G10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+
+sheet.row_dimensions[10].height = 52
+
+
+####pass######
 
 # записываем файл
 wb.save('start.xlsx')
