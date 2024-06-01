@@ -133,6 +133,54 @@ def create_window(teams_arr: list, is_end: bool):
     root.mainloop()
 
 
+def create_team(entry_name, entry_something, create_team_menu):
+    create_team_menu.destroy()
+
+    team = Team(entry_name.get(), entry_something.get())
+
+
+def create_team_window():
+    create_team_menu = tkinter.Tk()
+    create_team_menu.minsize(250, 100)
+    create_team_menu.title("Изменение участника команды")
+
+    tkinter.Label(create_team_menu, text="Название команды").grid(row=0, column=0)
+    tkinter.Label(create_team_menu, text="Что-то там команды").grid(row=0, column=1)
+
+
+    create_team_menu.grid_columnconfigure(0, minsize=50)
+    create_team_menu.grid_columnconfigure(1, minsize=50)
+
+
+    entry_name = tkinter.Entry(create_team_menu)
+    entry_name.grid(row=1, column=0)
+    entry_something = tkinter.Entry(create_team_menu)
+    entry_something.grid(row=1, column=1)
+
+    tkinter.Button(create_team_menu, command=lambda: create_team(entry_name, entry_something, create_team_menu), text="Сохранить").grid(row=1, column=2)
+
+def create_first_window():
+
+    # Создаем главное окно
+    root = tkinter.Tk()
+    root.minsize(700, 250)
+    root.title("Таблицы с названиями команд и списками участников")
+
+    # Здесь должны находиться все фреймы, относящиеся к командам
+    mainframe = tkinter.Frame(root)
+    mainframe.grid(row=0, column=0)
+
+
+    start_button_frame = tkinter.Frame(root)
+
+    start_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: )
+    start_button_frame.grid(row=1, column=1)
+    start_button.pack(padx=50, pady=50)
+
+    # Запускаем главный цикл обработки событий
+    root.mainloop()
+
+'''
 part1 = Participant(1, "Dima", 20, "M")
 part2 = Participant(2, "Yana", 21, "Z")
 
@@ -140,9 +188,10 @@ team1 = Team([part1, part2, part1])
 team2 = Team([part2, part1])
 team3 = Team([part2, part1, part1, part2])
 team4 = Team([part2, part1])
+team1, team2, team3, team4
+'''
+teams = []
 
-teams = [team1, team2, team3, team4]
-
-create_window(teams, False)
+create_first_window()
 
 
