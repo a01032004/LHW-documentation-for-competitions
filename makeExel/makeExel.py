@@ -301,7 +301,7 @@ ns.font = Font(bold=False, size=20, b = False)
 count_peopple = 9
 
 
-
+ 
 
 
 
