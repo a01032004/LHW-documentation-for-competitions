@@ -1,5 +1,5 @@
 import tkinter
-
+from tkinter import ttk
 from classes.Participant import Participant
 from classes.Team import Team
 
@@ -7,27 +7,28 @@ MAIN_TEAM_ARRAY = []
 
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
-def apply_changes(root, entry_id, entry_name, entry_rtrt_num, entry_age, entry_sex, entry_rank, entry_group, p: Participant, team: Team, window):
-    if p.name == "":# это добавление
+def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, p: Participant, team: Team, window):
+    if p.is_empty():# это добавление
         p.id = entry_id.get()
         p.name = entry_name.get()
-        p.starting_number = entry_rtrt_num.get()
+        p.starting_number = entry_srtrt_num.get()
         p.age = entry_age.get()
         p.sex = entry_sex.get()
         p.rank = entry_rank.get()
         p.group = entry_group.get()
+        p.medical_allowance = medic
         team.add_participant(p)
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, False)
     else:# это изменение
         p.id = entry_id.get()
         p.name = entry_name.get()
-        p.starting_number = entry_rtrt_num.get()
+        p.starting_number = entry_srtrt_num.get()
         p.age = entry_age.get()
         p.sex = entry_sex.get()
         p.rank = entry_rank.get()
         p.group = entry_group.get()
-        team.add_participant(p)
+        p.medical_allowance = medic
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, False)
 
@@ -60,7 +61,7 @@ def edit_time_menu(participant_to_edit: Participant):
 
 def edit_menu(root, team: Team, participant_to_edit: Participant):
 
-    edit_window = tkinter.Tk()
+    edit_window = tkinter.Toplevel()
     edit_window.minsize(250, 100)
     edit_window.title("Изменение участника команды")
 
@@ -71,7 +72,7 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     tkinter.Label(edit_window, text="Sex").grid(row=0, column=4)
     tkinter.Label(edit_window, text="Rank").grid(row=0, column=5)
     tkinter.Label(edit_window, text="Group").grid(row=0, column=6)
-
+    tkinter.Label(edit_window, text="medical_allowance").grid(row=0, column=7)
 
     edit_window.grid_columnconfigure(0, minsize=50)
     edit_window.grid_columnconfigure(1, minsize=50)
@@ -99,7 +100,11 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     entry_group = tkinter.Entry(edit_window)
     entry_group.grid(row=1, column=6)
 
-    #checkbox
+    medic_var = tkinter.BooleanVar()
+    entry_medic = tkinter.Checkbutton(edit_window, variable=medic_var,
+                                      offvalue=False, onvalue=True)
+
+    entry_medic.grid(row=1, column=7)
 
     if participant_to_edit.id != -1:
         entry_id.insert(-1, participant_to_edit.id)
@@ -107,8 +112,19 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     if participant_to_edit.age != -1:
         entry_age.insert(-1, participant_to_edit.age)
     entry_sex.insert(-1, participant_to_edit.sex)
+    entry_strt_num.insert(-1, participant_to_edit.starting_number)
+    entry_rank.insert(-1, participant_to_edit.rank)
+    entry_group.insert(-1, participant_to_edit.group)
 
-    tkinter.Button(edit_window, command=lambda: apply_changes(root, entry_id, entry_name, entry_strt_num, entry_age, entry_sex, entry_rank, entry_group, participant_to_edit, team, edit_window), text = "Сохранить").grid(row=1, column=7)
+    if participant_to_edit.medical_allowance:
+        medic_var.set(True)
+    else:
+        medic_var.set(False)
+
+    tkinter.Button(edit_window,
+                   command=lambda: apply_changes(root, entry_id, entry_name, entry_strt_num, entry_age, entry_sex,
+                                                 entry_rank, entry_group, medic_var.get(), participant_to_edit,
+                                                  team, edit_window), text="Сохранить").grid(row=1, column=8)
 
 
 # Создаем функцию для создания таблицы
