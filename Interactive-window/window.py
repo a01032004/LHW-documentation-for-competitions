@@ -6,30 +6,34 @@ MAIN_TEAM_ARRAY = []
 
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
-def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, p: Participant, team: Team, window):
+def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, p: Participant, team: Team, window, is_end):
     if p.is_empty():# это добавление
-        p.id = entry_id.get()
-        p.name = entry_name.get()
-        p.starting_number = entry_srtrt_num.get()
-        p.age = entry_age.get()
-        p.sex = entry_sex.get()
-        p.rank = entry_rank.get()
-        p.group = entry_group.get()
+        p.id = entry_id
+        p.name = entry_name
+        p.starting_number = entry_srtrt_num
+        p.age = entry_age
+        p.sex = entry_sex
+        p.rank = entry_rank
+        p.group = entry_group
         p.medical_allowance = medic
+        p.rules_violation_disqualification = violation
+        p.behaviour_disqualification = behaviour
         team.add_participant(p)
         window.destroy()
-        window_rebuild(root, MAIN_TEAM_ARRAY, False)
+        window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
     else:# это изменение
-        p.id = entry_id.get()
-        p.name = entry_name.get()
-        p.starting_number = entry_srtrt_num.get()
-        p.age = entry_age.get()
-        p.sex = entry_sex.get()
-        p.rank = entry_rank.get()
-        p.group = entry_group.get()
+        p.id = entry_id
+        p.name = entry_name
+        p.starting_number = entry_srtrt_num
+        p.age = entry_age
+        p.sex = entry_sex
+        p.rank = entry_rank
+        p.group = entry_group
         p.medical_allowance = medic
+        p.rules_violation_disqualification = violation
+        p.behaviour_disqualification = behaviour
         window.destroy()
-        window_rebuild(root, MAIN_TEAM_ARRAY, False)
+        window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
 
 
 def window_rebuild(root, teams_arr, is_end):
@@ -37,25 +41,53 @@ def window_rebuild(root, teams_arr, is_end):
     create_window(teams_arr, is_end)
 
 
-def edit_time_menu(participant_to_edit: Participant):
-    edit_window = tkinter.Tk()
+def edit_time_menu(root, participant_to_edit: Participant, team: Team):
+    edit_window = tkinter.Toplevel()
     edit_window.minsize(250, 100)
     edit_window.title("Изменение времени участника")
-
-    tkinter.Label(edit_window, text='start').grid(row=0, column=0)
-    tkinter.Label(edit_window, text="finish").grid(row=0, column=1)
+    tkinter.Label(edit_window, text="Снятие за нарушение правил").grid(row=0, column=0)
+    tkinter.Label(edit_window, text="Снятие за неспортивное поведение").grid(row=0, column=1)
+    tkinter.Label(edit_window, text='start').grid(row=0, column=2)
+    tkinter.Label(edit_window, text="finish").grid(row=0, column=3)
     edit_window.grid_columnconfigure(0, minsize=75)
     edit_window.grid_columnconfigure(1, minsize=75)
 
+    violation = tkinter.BooleanVar()
+    entry_violation = tkinter.Checkbutton(edit_window, variable=violation, offvalue=False, onvalue=True)
+    entry_violation.grid(row=1, column=0)
+    behaviour = tkinter.BooleanVar()
+    entry_violation = tkinter.Checkbutton(edit_window, variable=behaviour, offvalue=False, onvalue=True)
+    entry_violation.grid(row=1, column=1)
+    
+
     entry_start = tkinter.Entry(edit_window)
-    entry_start.grid(row=1, column=0)
+    entry_start.grid(row=1, column=2)
     entry_finish = tkinter.Entry(edit_window)
-    entry_finish.grid(row=1, column=1)
+    entry_finish.grid(row=1, column=3)
 
     entry_start.insert(-1, participant_to_edit.start_time)
     entry_finish.insert(-1, participant_to_edit.finish_time)
+    if participant_to_edit.rules_violation_disqualification:
+        violation.set(True)
+    else:
+        violation.set(False)
 
-    tkinter.Button(edit_window).grid(row=1, column=2)
+    if participant_to_edit.behaviour_disqualification:
+        behaviour.set(True)
+    else:
+        behaviour.set(False)
+
+    tkinter.Button(edit_window, text="Сохранить", command=lambda: apply_changes(root, participant_to_edit.id,
+                                                                               participant_to_edit.name,
+                                                                               participant_to_edit.starting_number,
+                                                                               participant_to_edit.age,
+                                                                               participant_to_edit.sex,
+                                                                               participant_to_edit.rank,
+                                                                               participant_to_edit.group,
+                                                                               participant_to_edit.medical_allowance,
+                                                                               violation.get(), behaviour.get(),
+                                                                               participant_to_edit, team,
+                                                                               edit_window, True)).grid(row=1, column=4)
 
 
 def edit_menu(root, team: Team, participant_to_edit: Participant):
@@ -121,9 +153,12 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
         medic_var.set(False)
 
     tkinter.Button(edit_window,
-                   command=lambda: apply_changes(root, entry_id, entry_name, entry_strt_num, entry_age, entry_sex,
-                                                 entry_rank, entry_group, medic_var.get(), participant_to_edit,
-                                                  team, edit_window), text="Сохранить").grid(row=1, column=8)
+                   command=lambda: apply_changes(root, entry_id.get(), entry_name.get(), entry_strt_num.get(),
+                                                 entry_age.get(), entry_sex.get(),
+                                                 entry_rank.get(), entry_group.get(), medic_var.get(),
+                                                 participant_to_edit.rules_violation_disqualification,
+                                                 participant_to_edit.behaviour_disqualification, participant_to_edit,
+                                                 team, edit_window, False), text="Сохранить").grid(row=1, column=8)
 
 
 # Создаем функцию для создания таблицы
@@ -132,11 +167,15 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
     frame.grid(row=frame_row, column=frame_column)
 
     # Генерация шапки
-    tkinter.Label(frame, text=team.team_name).grid(row=0, column=0, columnspan=4, stick="we")
+    tkinter.Label(frame, text=team.team_name).grid(row=0, column=0, columnspan=7, stick="we")
     tkinter.Label(frame, text='Id').grid(row=1, column=0)
     tkinter.Label(frame, text="Name").grid(row=1, column=1)
     tkinter.Label(frame, text="start_num").grid(row=1, column=2)
-
+    if is_end:
+        tkinter.Label(frame, text="Снятие за нарушение правил").grid(row=1, column=3)
+        tkinter.Label(frame, text="Снятие за неспортивное поведение").grid(row=1, column=4)
+        tkinter.Label(frame, text="Время старта").grid(row=1, column=5)
+        tkinter.Label(frame, text="Время финиша").grid(row=1, column=6)
 
     frame.grid_columnconfigure(0, minsize=50)
     frame.grid_columnconfigure(1, minsize=50)
@@ -152,11 +191,14 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
         if not is_end:
             tkinter.Button(frame, text="Edit", command=lambda: edit_menu(root, team, team.arr[i])).grid(row=i + 2, column=3)
         else:
-            tkinter.Label(frame, text=team.arr[i].start_time).grid(row=i + 2, column=3)
-            tkinter.Label(frame, text=team.arr[i].finish_time).grid(row=i + 2, column=4)
-            tkinter.Button(frame, text="Изменить время", command=lambda: edit_time_menu(team.arr[i])).grid(row=i + 2, column=5)
+            tkinter.Label(frame, text=("Да" if team.arr[i].rules_violation_disqualification else "Нет")).grid(row=i + 2, column=3)
+            tkinter.Label(frame, text=("Да" if team.arr[i].behaviour_disqualification else "Нет")).grid(row=i + 2, column=4)
+            tkinter.Label(frame, text=team.arr[i].start_time).grid(row=i + 2, column=5)
+            tkinter.Label(frame, text=team.arr[i].finish_time).grid(row=i + 2, column=6)
+            tkinter.Button(frame, text="Изменить время", command=lambda: edit_time_menu(root, team.arr[i], team)).grid(row=i + 2, column=7)
 
-    tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant()), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
+    if not is_end:
+        tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant()), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
 
 
 def create_window(teams_arr: list, is_end: bool):
@@ -175,7 +217,7 @@ def create_window(teams_arr: list, is_end: bool):
     mainframe.grid(row=0, column=0)
 
     for i in range(0, teams_arr.__len__()):
-        create_table(teams_arr[i], root, mainframe, is_end, i // 3, i % 3)
+        create_table(teams_arr[i], root, mainframe, is_end, i // 3 if not is_end else i, i % 3 if not is_end else 1)
 
     start_button_frame = tkinter.Frame(root)
 
