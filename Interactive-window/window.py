@@ -1,5 +1,4 @@
 import tkinter
-from tkinter import ttk
 from classes.Participant import Participant
 from classes.Team import Team
 
@@ -161,6 +160,10 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
 
 
 def create_window(teams_arr: list, is_end: bool):
+
+    if is_end:
+        # Вызов функции Тишки
+        pass
 
     # Создаем главное окно
     root = tkinter.Tk()
