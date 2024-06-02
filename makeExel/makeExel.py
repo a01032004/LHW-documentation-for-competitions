@@ -7,22 +7,22 @@ from openpyxl.styles import Alignment
 '''book = openpyxl.open("first.xlsx", read_only=True)
 sheet = book.active'''
 
-#workbook = openpyxl.load_workbook("start.xlsx")
-#print(sheet["i26"].value)
+# workbook = openpyxl.load_workbook("start.xlsx")
+# print(sheet["i26"].value)
 
 wb = openpyxl.Workbook()
-wb.create_sheet(title = 'Стартовый протокол', index = 0)
+wb.create_sheet(title='Стартовый протокол', index=0)
 # получаем лист, с которым будем работать
 sheet = wb['Стартовый протокол']
 
 # создаем именованный стиль
 ns = NamedStyle(name='highlight')
-ns.font = Font(bold=True, size=20, b = True)
+ns.font = Font(bold=True, size=20, b=True)
 border = Side(style='thick', color='000000')
 ns.border = Border(left=border, top=border, right=border, bottom=border)
 wb.add_named_style(ns)
-#sheet['A1'].style = 'highlight'
-#начинаем формирование шапки стартового фацла
+# sheet['A1'].style = 'highlight'
+# начинаем формирование шапки стартового фацла
 
 sheet.merge_cells('A1:I1')
 sheet['A1'].value = 'СТАРТОВЫЙ ПРОТОКОЛ'
@@ -40,7 +40,7 @@ sheet['A3'].alignment = Alignment(horizontal='center')
 sheet["A3"].font = Font(bold=True)
 
 sheet.merge_cells('A4:I4')
-#получаем группу соревнований
+# получаем группу соревнований
 type_competition = 1
 if (type_competition == 1):
     sheet['A4'].value = 'среди постоянного состава'
@@ -78,8 +78,7 @@ sheet['E8'].value = 'Стиль - свободный'
 sheet['E8'].alignment = Alignment(horizontal='left')
 
 
-
-#Заполнение таблицы
+# Заполнение таблицы
 sheet['A10'].value = '№'
 sheet['B10'].value = 'Стартовый номер'
 sheet['C10'].value = 'Воинское звание'
@@ -89,13 +88,20 @@ sheet['F10'].value = 'Команда'
 sheet['G10'].value = 'Время старта'
 sheet['H10'].value = 'Отметка о выходе со старта'
 sheet['A10'].alignment = Alignment(horizontal='center', vertical="center")
-sheet['B10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['C10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['D10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['E10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['F10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['G10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['B10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['C10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['D10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['E10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['F10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['G10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['H10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
 
 sheet["A10"].font = Font(bold=True)
 sheet["B10"].font = Font(bold=True)
@@ -107,25 +113,16 @@ sheet["G10"].font = Font(bold=True)
 sheet["H10"].font = Font(bold=True)
 
 sheet.row_dimensions[10].height = 58
-sheet.column_dimensions['H'].width =10
+sheet.column_dimensions['H'].width = 10
 sheet.column_dimensions['D'].width = 38
 
 
-
-
-ns.font = Font(bold=False, size=20, b = False)
-####pass    заполнение данных   ######
+ns.font = Font(bold=False, size=20, b=False)
+#### pass    заполнение данных   ######
 count_peopple = 9
 
 
-
-
-
-
-
-
-
-#аполнение подписей
+# аполнение подписей
 sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
 sheet[f"A{count_peopple + 14}"].value = 'Главный судья'
 sheet[f"A{count_peopple + 14}"].alignment = Alignment(horizontal='left')
@@ -146,44 +143,6 @@ sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
 wb.save('start.xlsx')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #################################################     Итоговый     #############################################################
 
 
@@ -192,7 +151,7 @@ wn = wb.create_sheet('Итоговый протокол')
 sheet = wb['Итоговый протокол']
 
 
-#начинаем формирование шапки стартового фацла
+# начинаем формирование шапки стартового фацла
 sheet.merge_cells('A1:L1')
 sheet['A1'].value = 'ИТОГОВЫЙ ПРОТОКОЛ'
 sheet['A1'].alignment = Alignment(horizontal='center')
@@ -209,7 +168,7 @@ sheet['A3'].alignment = Alignment(horizontal='center')
 sheet["A3"].font = Font(bold=True)
 
 sheet.merge_cells('A4:L4')
-#получаем группу соревнований
+# получаем группу соревнований
 type_competition = 1
 if (type_competition == 1):
     sheet['A4'].value = 'среди постоянного состава'
@@ -247,8 +206,7 @@ sheet['E8'].value = 'Стиль - свободный'
 sheet['E8'].alignment = Alignment(horizontal='left')
 
 
-
-#Заполнение таблицы
+# Заполнение таблицы
 sheet['A10'].value = '№'
 sheet['B10'].value = 'Стартовый номер'
 sheet['C10'].value = 'Воинское звание'
@@ -264,16 +222,26 @@ sheet['L10'].value = 'Место'
 
 sheet['A10'].alignment = Alignment(horizontal='center', vertical="center")
 sheet['B10'].alignment = Alignment(horizontal='center', vertical="center")
-sheet['C10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['D10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['E10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['F10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['G10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['I10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['J10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['K10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['L10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['C10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['D10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['E10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['F10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['G10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['H10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['I10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['J10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['K10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['L10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
 
 sheet["A10"].font = Font(bold=True)
 sheet["B10"].font = Font(bold=True)
@@ -290,25 +258,16 @@ sheet["L10"].font = Font(bold=True)
 
 
 sheet.row_dimensions[10].height = 58
-sheet.column_dimensions['H'].width =10
+sheet.column_dimensions['H'].width = 10
 sheet.column_dimensions['D'].width = 38
 
 
-
-
-ns.font = Font(bold=False, size=20, b = False)
-####pass    заполнение данных   ######
+ns.font = Font(bold=False, size=20, b=False)
+#### pass    заполнение данных   ######
 count_peopple = 9
 
 
-
-
-
-
-
-
-
-#аполнение подписей
+# аполнение подписей
 sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
 sheet[f"A{count_peopple + 14}"].value = 'Главный судья'
 sheet[f"A{count_peopple + 14}"].alignment = Alignment(horizontal='left')
@@ -327,19 +286,6 @@ sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
 wb.save('start.xlsx')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###########################################              Заключительная таблица                 ############################################
 
 wn = wb.create_sheet('Итоговая таблица')
@@ -347,7 +293,7 @@ wn = wb.create_sheet('Итоговая таблица')
 sheet = wb['Итоговая таблица']
 
 
-#начинаем формирование шапки стартового фацла
+# начинаем формирование шапки стартового фацла
 sheet.merge_cells('A1:K1')
 sheet['A1'].value = 'ИТОГОВАЯ ТАБЛИЦА'
 sheet['A1'].alignment = Alignment(horizontal='center')
@@ -364,7 +310,7 @@ sheet['A3'].alignment = Alignment(horizontal='center')
 sheet["A3"].font = Font(bold=True)
 
 sheet.merge_cells('A4:K4')
-#получаем группу соревнований
+# получаем группу соревнований
 type_competition = 1
 if (type_competition == 1):
     sheet['A4'].value = 'среди постоянного состава'
@@ -402,8 +348,7 @@ sheet['E8'].value = 'Стиль - свободный'
 sheet['E8'].alignment = Alignment(horizontal='left')
 
 
-
-#Заполнение таблицы
+# Заполнение таблицы
 sheet['A10'].value = ''
 sheet.merge_cells('B10:I10')
 sheet['B10'].value = 'Номера участников'
@@ -412,16 +357,26 @@ sheet['K10'].value = 'Место'
 
 sheet['A10'].alignment = Alignment(horizontal='center', vertical="center")
 sheet['B10'].alignment = Alignment(horizontal='center', vertical="center")
-sheet['C10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['D10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['E10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['F10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['G10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['H10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['I10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['J10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['K10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
-sheet['L10'].alignment = Alignment(horizontal='center', vertical="center", wrapText=True)
+sheet['C10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['D10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['E10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['F10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['G10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['H10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['I10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['J10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['K10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
+sheet['L10'].alignment = Alignment(
+    horizontal='center', vertical="center", wrapText=True)
 
 sheet["A10"].font = Font(bold=True)
 sheet["B10"].font = Font(bold=True)
@@ -429,26 +384,16 @@ sheet["J10"].font = Font(bold=True)
 sheet["K10"].font = Font(bold=True)
 
 
-
 sheet.row_dimensions[10].height = 48
-sheet.column_dimensions['A'].width =18
+sheet.column_dimensions['A'].width = 18
 
 
-
-
-ns.font = Font(bold=False, size=20, b = False)
-####pass    заполнение данных   ######
+ns.font = Font(bold=False, size=20, b=False)
+#### pass    заполнение данных   ######
 count_peopple = 9
 
 
-
-
-
-
-
-
-
-#аполнение подписей
+# аполнение подписей
 sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
 sheet[f"A{count_peopple + 14}"].value = 'Главный судья'
 sheet[f"A{count_peopple + 14}"].alignment = Alignment(horizontal='left')
@@ -465,5 +410,3 @@ sheet.merge_cells(f"A{count_peopple + 17}:B{count_peopple + 17}")
 sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
 
 wb.save('start.xlsx')
-
-
