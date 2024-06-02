@@ -7,7 +7,7 @@ MAIN_TEAM_ARRAY = []
 
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
-def apply_changes(root, entry_id, entry_name, entry_age, entry_sex, p: Participant, team:Team, window):
+def apply_changes(root, entry_id, entry_name, entry_age, entry_sex, p: Participant, team: Team, window):
     if p.name == "":# это добавление
         p.id = entry_id.get()
         p.name = entry_name.get()
@@ -17,11 +17,11 @@ def apply_changes(root, entry_id, entry_name, entry_age, entry_sex, p: Participa
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, False)
     else:# это изменение
-        window.destroy()
         p.id = entry_id.get()
         p.name = entry_name.get()
         p.age = entry_age.get()
         p.sex = entry_sex.get()
+        window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, False)
 
 
@@ -50,7 +50,8 @@ def edit_time_menu(participant_to_edit: Participant):
 
     tkinter.Button(edit_window).grid(row=1, column=2)
 
-def edit_menu(root, team: Team, participant_to_edit : Participant):
+
+def edit_menu(root, team: Team, participant_to_edit: Participant):
 
     edit_window = tkinter.Tk()
     edit_window.minsize(250, 100)
@@ -75,7 +76,6 @@ def edit_menu(root, team: Team, participant_to_edit : Participant):
     entry_age.grid(row=1, column=2)
     entry_sex = tkinter.Entry(edit_window)
     entry_sex.grid(row=1, column=3)
-
     if participant_to_edit.id != -1:
         entry_id.insert(-1, participant_to_edit.id)
     entry_name.insert(-1, participant_to_edit.name)
@@ -83,7 +83,7 @@ def edit_menu(root, team: Team, participant_to_edit : Participant):
         entry_age.insert(-1, participant_to_edit.age)
     entry_sex.insert(-1, participant_to_edit.sex)
 
-    tkinter.Button(edit_window, command=lambda: apply_changes(root, entry_id, entry_name, entry_age, entry_sex, participant_to_edit, team, edit_window), text="Сохранить").grid(row=1, column=4)
+    tkinter.Button(edit_window, command=lambda: apply_changes(root, entry_id, entry_name, entry_age, entry_sex, participant_to_edit, team, edit_window), text = "Сохранить").grid(row=1, column=4)
 
 
 # Создаем функцию для создания таблицы
@@ -136,9 +136,11 @@ def create_window(teams_arr: list, is_end: bool):
 
     start_button_frame = tkinter.Frame(root)
 
+    add_team_button = tkinter.Button(start_button_frame, text="Добавить команду",command=lambda: create_team_window(root))
     start_button = tkinter.Button(start_button_frame, text="Start", command=lambda: window_rebuild(root, teams_arr, True))
     start_button_frame.grid(row=1, column=1)
-    start_button.pack(padx=50, pady=50)
+    add_team_button.pack(padx=50, pady=0)
+    start_button.pack(padx=50, pady=5)
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
@@ -185,11 +187,11 @@ def create_first_window():
     mainframe.grid(row=0, column=0)
 
 
-    start_button_frame = tkinter.Frame(root)
+    add_team_button_frame = tkinter.Frame(root)
 
-    start_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
-    start_button_frame.grid(row=1, column=1)
-    start_button.pack(padx=50, pady=50)
+    add_team_button = tkinter.Button(add_team_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
+    add_team_button_frame.grid(row=1, column=1)
+    add_team_button.pack(padx=50, pady=50)
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
