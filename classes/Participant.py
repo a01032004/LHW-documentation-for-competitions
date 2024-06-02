@@ -1,11 +1,11 @@
-
+import datetime
 
 class Participant:
-    """
 
-    """
-
-    def __init__(self, _id=-1, name="", starting_number=-1, age=-1, sex="", rank="", group=1, medical_allowance=False):
+    def __init__( # Зачем id и starting_number, если можно сортировать в лексико-графическом порядке?
+        self, _id=-1, name="", starting_number=-1, age=-1,
+        sex=True, rank="", group=1, medical_allowance=False
+    ):
         self.sex = sex
         self.age = age
         self.name = name
@@ -17,8 +17,8 @@ class Participant:
         self.medical_allowance = medical_allowance
         self.rules_violation_disqualification = False
         self.behaviour_disqualification = False
-        self.finish_time = "0:00"
-        self.start_time = "0:00"
+        self.finish_time = datetime.time()
+        self.start_time = datetime.time()
 
     def edit_sex(self, sex):
         self.sex = sex
