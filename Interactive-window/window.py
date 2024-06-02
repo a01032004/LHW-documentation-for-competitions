@@ -221,7 +221,10 @@ def create_window(teams_arr: list, is_end: bool):
 
     start_button_frame = tkinter.Frame(root)
 
-    add_team_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
+    if is_end: # Здесь вызов функции Айдара вместо create_team_window
+        add_team_button = tkinter.Button(start_button_frame, text="Подвести итоги", command=lambda: create_team_window(root))
+    else:
+        add_team_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
     start_button = tkinter.Button(start_button_frame, text="Start", command=lambda: window_rebuild(root, teams_arr, True))
     start_button_frame.grid(row=1, column=1)
     add_team_button.pack(padx=50, pady=0)
