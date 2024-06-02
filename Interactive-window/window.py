@@ -189,9 +189,9 @@ def create_first_window():
 
     add_team_button_frame = tkinter.Frame(root)
 
-    add_team_button = tkinter.Button(add_team_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
+    add_team_button = tkinter.Button(add_team_button_frame, text="Добавить первую команду", command=lambda: create_team_window(root))
     add_team_button_frame.grid(row=1, column=1)
-    add_team_button.pack(padx=50, pady=50)
+    add_team_button.pack(padx=250, pady=250)
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
