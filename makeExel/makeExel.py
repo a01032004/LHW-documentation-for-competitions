@@ -1,8 +1,8 @@
 from classes.Participant import Participant
 from classes.Team import Team
-import openpyxl
-from openpyxl.styles import NamedStyle, Font, Border, Side
-from openpyxl.styles import Alignment
+import openpyxl # type: ignore
+from openpyxl.styles import NamedStyle, Font, Border, Side # type: ignore
+from openpyxl.styles import Alignment # type: ignore
 
 '''book = openpyxl.open("first.xlsx", read_only=True)
 sheet = book.active'''
