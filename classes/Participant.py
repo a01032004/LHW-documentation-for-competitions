@@ -1,5 +1,7 @@
 import datetime
 
+from calcs.utilites import get_factor
+
 
 class Participant:
 
@@ -21,6 +23,14 @@ class Participant:
         self.finish_time = datetime.time()
         self.start_time = datetime.time()
 
+        # Поля, заполняемые в модуле calcs
+        self.pure_time = datetime.time()
+        self.result_time = datetime.time()
+        self.place = -1
+
+        # Высчитывается коэффициент, на который должно домножиться время
+        self.factor = get_factor(self.sex, self.age)
+
     def edit_sex(self, sex):
         self.sex = sex
 
@@ -37,7 +47,10 @@ class Participant:
         return self.rank == "" and self.name == "" and self.age == -1 and self.id == -1
 
     def __str__(self):
-        return "Номер: " + str(self.starting_number) + "; Имя: " + self.name + "; Возраст: " + str(self.age) + "; Результат:"
+        string = "Номер: " + str(self.starting_number) + "; Имя: " + self.name + "; Возраст: " + str(self.age)
+        string += "; Результат: " + str(self.result_time)
+        string += "; Место: " + str(self.place)
+        return string
 
     def __eq__(self, other_participant):
         return ((self.age == other_participant.age) and (self.sex == other_participant.sex)

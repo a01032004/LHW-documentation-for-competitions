@@ -5,8 +5,8 @@ import datetime as dt
 
 if __name__ == "__main__":
 
-    first_part = Participant(1, "First", 12, 19)
-    second_part = Participant(2, "Second", 19, 19)
+    first_part = Participant(1, "First", 12, 26)
+    second_part = Participant(2, "Second", 19, 44)
     third_part = Participant(3, "Third", 1, 21)
     fourth_part = Participant(4, "Fourth", 45, 20)
 
@@ -28,4 +28,4 @@ if __name__ == "__main__":
 
     res = calc_personal_competition(arr)
     for part in res:
-        print(part[0], part[1], part[2], part[3])
+        print(part)
