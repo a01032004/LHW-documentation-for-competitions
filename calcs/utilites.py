@@ -42,3 +42,42 @@ def total_seconds_to_time(seconds: float):
         minute=int(seconds) % 3600 // 60,
         second=int(seconds) % 60
     )
+
+
+def get_best_woman(team: list):
+    """Находим женщину с наилудшим результатом в команде
+
+    Args:
+        team (list): список с участниками команды
+
+    Returns:
+        Participant or False: объект Participant, когда в команде есть женщины, иначе False 
+    """
+    womans = []
+    for part in team:
+        if part.sex == True:
+            womans.append(part)
+
+    if len(womans) == 0:
+        return False
+
+    womans.sort(key=lambda part: part.place)
+
+    return womans[0]
+
+
+def sum_point(team: list, count: int):
+    """Подсчитывает бал команды
+
+    Args:
+        team (list): список участников команды
+        count (int): количество участников, по которым считается бал
+
+    Returns:
+        int: командный балл 
+    """
+    points = 0
+    for i in range(0, min(count, len(team))):
+        points += team[i].place
+
+    return points

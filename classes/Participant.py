@@ -7,9 +7,9 @@ class Participant:
 
     def __init__(  # Зачем id и starting_number, если можно сортировать в лексико-графическом порядке?
         self, _id=-1, name="", starting_number=-1, age=-1,
-        sex=True, rank="", group=1, medical_allowance=False
+        sex=False, rank="", group=1, medical_allowance=False
     ):
-        self.sex = sex
+        self.sex = sex # False подразумевает мужской пол
         self.age = age
         self.name = name
         self.id = _id
@@ -20,6 +20,7 @@ class Participant:
         self.medical_allowance = medical_allowance
         self.rules_violation_disqualification = False
         self.behaviour_disqualification = False
+        self.doctor_removed = False # Показывает, был ли удалён медицинским работником по состоянию здоровья
         self.finish_time = datetime.time()
         self.start_time = datetime.time()
 

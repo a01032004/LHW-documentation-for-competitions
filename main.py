@@ -1,8 +1,9 @@
-from calcs.calcs import calc_personal_competition
+import calcs.calcs as calc
 from classes.Participant import Participant
 from classes.Team import Team
 import datetime as dt
 
+from operator import itemgetter
 if __name__ == "__main__":
 
     first_part = Participant(1, "First", 12, 26)
@@ -20,12 +21,26 @@ if __name__ == "__main__":
     third_part.finish_time = dt.time(12, 34, 49)
     fourth_part.finish_time = dt.time(12, 32, 1)
 
-    team_one = Team([first_part, second_part])
-    team_two = Team([third_part, fourth_part])
+    team_one = Team([first_part, second_part], "First team")
+    team_two = Team([third_part, fourth_part], "Second team")
 
+
+    parts = [first_part, second_part, third_part, fourth_part]
+    
+    print("\n")
     # Пусть это массив, поступающий на вход
     arr = [team_one, team_two]
 
-    res = calc_personal_competition(arr)
+    res = calc.calc_personal_competition(arr)
     for part in res:
         print(part)
+    
+    print("\nКоманды")
+    teams = calc.calc_team_competition(arr, 1)
+    for team in teams:
+        print(team)
+
+    # print("\n")
+    # parts.sort(key=lambda part: (part.sex, part.result_time))
+    # for part in parts:
+    #     print(part)

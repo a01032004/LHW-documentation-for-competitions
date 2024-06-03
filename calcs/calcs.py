@@ -5,6 +5,7 @@
 import datetime as dt
 
 import calcs.utilites as ut
+import config
 
 from classes.Participant import Participant
 from classes.Team import Team
@@ -28,7 +29,6 @@ def calc_personal_competition(arr: list):
         for participant in team.arr:
             partips.append(participant)
 
-
     # Проходим по partips и вычисляем чистое время и время, домноженное на коэффициент
     for part in partips:
         part_result = []
@@ -38,17 +38,16 @@ def calc_personal_competition(arr: list):
         # Высчитываем чистое время
         finish = part.finish_time
         start = part.start_time
-        delta = dt.timedelta(
-            hours=finish.hour, minutes=finish.minute, seconds=finish.second) - dt.timedelta(
-            hours=start.hour, minutes=start.minute, seconds=start.second
-        )
+        delta = dt.timedelta(hours=finish.hour, minutes=finish.minute, seconds=finish.second) - \
+            dt.timedelta(hours=start.hour, minutes=start.minute,
+                         seconds=start.second)
 
         pure_time = ut.total_seconds_to_time(delta.total_seconds())
         part.pure_time = pure_time
 
         # Высчитываем время, домноженное на коэффициент
         # factor = ut.get_factor(part.sex, part.age)
-        
+
         factor_time = part.factor * delta.total_seconds()
         result_time = ut.total_seconds_to_time(factor_time)
         part.result_time = result_time
@@ -65,16 +64,64 @@ def calc_personal_competition(arr: list):
     return result
 
 
-def calc_team_competition(teams: list):
+def calc_team_competition(teams: list, group: int):
     """Вычисляет место команды в соревнованиях
 
     Args:
         teams (list): массив, содержащий объекты типа Team
+        group (int): группа, по которым проводится подсчёт
 
     Returns:
-        list: массив
+        list: массив команд, отсортированных по имени и по очкам
     """
 
     result = []
+    countable = []  # Массив, с участниками, время которых будет учтено
+
+    # 4 мужчины и 1 женщица. При отсутствии женщин в команде, по 5 мужчинам
+    if group == 1:
+        for team in teams:
+
+            # Сортируем список участников команды сначала по полу, а после по месту в личном зачёте
+            team.arr.sort(key=lambda part: (part.sex, part.place))
+
+            # Считаем общий бал
+            woman = ut.get_best_woman(team.arr)
+            if woman:
+                team.team_points += ut.sum_point(
+                    team.arr, config.number_of_best_parts_in_first_group) + woman.place
+            else:
+                team.team_points += ut.sum_point(
+                    team.arr, config.number_of_best_parts_in_first_group + 1)
+
+            result.append(team)
+
+    # 7 лучших участника
+    if group == 2:
+        for team in teams:
+
+            # Сортируем список команды сначала по месту
+            team.sort(key=lambda part: part.place)
+
+            # Считаем бал
+            team.team_points += ut.sum_point(team.arr,
+                                             config.number_of_best_parts_in_second_group)
+
+            result.append(team)
+
+    # 3 лучших участника
+    if group == 3:
+        for team in teams:
+            # Сортируем список команды сначала по месту
+            team.sort(key=lambda part: part.place)
+
+            # Считаем бал
+            team.team_points += ut.sum_point(team.arr,
+                                             config.number_of_best_parts_in_third_group)
+
+            result.append(team)
+
+    # Сортируем команды по названию, а после по очкам
+    teams.sort(key=lambda team: (team.team_name, team.team_points))
 
     return result
