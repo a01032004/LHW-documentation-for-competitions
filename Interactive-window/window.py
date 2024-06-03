@@ -6,8 +6,8 @@ MAIN_TEAM_ARRAY = []
 
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
-def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, p: Participant, team: Team, window, is_end):
-    if p.is_empty():  # это добавление
+def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, entry_start, entry_finish, p: Participant, team: Team, window, is_end):
+    if p.is_empty():# это добавление
         p.id = entry_id
         p.name = entry_name
         p.starting_number = entry_srtrt_num
@@ -18,6 +18,8 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         p.medical_allowance = medic
         p.rules_violation_disqualification = violation
         p.behaviour_disqualification = behaviour
+        p.start_time = entry_start
+        p.finish_time = entry_finish
         team.add_participant(p)
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
@@ -32,6 +34,8 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         p.medical_allowance = medic
         p.rules_violation_disqualification = violation
         p.behaviour_disqualification = behaviour
+        p.start_time = entry_start
+        p.finish_time = entry_finish
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
 
@@ -81,16 +85,17 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
         behaviour.set(False)
 
     tkinter.Button(edit_window, text="Сохранить", command=lambda: apply_changes(root, participant_to_edit.id,
-                                                                                participant_to_edit.name,
-                                                                                participant_to_edit.starting_number,
-                                                                                participant_to_edit.age,
-                                                                                participant_to_edit.sex,
-                                                                                participant_to_edit.rank,
-                                                                                participant_to_edit.group,
-                                                                                participant_to_edit.medical_allowance,
-                                                                                violation.get(), behaviour.get(),
-                                                                                participant_to_edit, team,
-                                                                                edit_window, True)).grid(row=1, column=4)
+                                                                               participant_to_edit.name,
+                                                                               participant_to_edit.starting_number,
+                                                                               participant_to_edit.age,
+                                                                               participant_to_edit.sex,
+                                                                               participant_to_edit.rank,
+                                                                               participant_to_edit.group,
+                                                                               participant_to_edit.medical_allowance,
+                                                                               violation.get(), behaviour.get(),
+                                                                                entry_start.get(), entry_finish.get(),
+                                                                               participant_to_edit, team,
+                                                                               edit_window, True)).grid(row=1, column=4)
 
 
 def edit_menu(root, team: Team, participant_to_edit: Participant):
@@ -100,13 +105,13 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     edit_window.title("Изменение участника команды")
 
     tkinter.Label(edit_window, text='Id').grid(row=0, column=0)
-    tkinter.Label(edit_window, text="Name").grid(row=0, column=1)
-    tkinter.Label(edit_window, text="Strtnum").grid(row=0, column=2)
-    tkinter.Label(edit_window, text="Age").grid(row=0, column=3)
-    tkinter.Label(edit_window, text="Sex").grid(row=0, column=4)
-    tkinter.Label(edit_window, text="Rank").grid(row=0, column=5)
-    tkinter.Label(edit_window, text="Group").grid(row=0, column=6)
-    tkinter.Label(edit_window, text="medical_allowance").grid(row=0, column=7)
+    tkinter.Label(edit_window, text="ФИО").grid(row=0, column=1)
+    tkinter.Label(edit_window, text="Стартовый номер").grid(row=0, column=2)
+    tkinter.Label(edit_window, text="Возраст").grid(row=0, column=3)
+    tkinter.Label(edit_window, text="Пол").grid(row=0, column=4)
+    tkinter.Label(edit_window, text="Звание").grid(row=0, column=5)
+    tkinter.Label(edit_window, text="Группа").grid(row=0, column=6)
+    tkinter.Label(edit_window, text="Допущен врачем").grid(row=0, column=7)
 
     edit_window.grid_columnconfigure(0, minsize=50)
     edit_window.grid_columnconfigure(1, minsize=50)
@@ -160,7 +165,9 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
                                                  entry_age.get(), entry_sex.get(),
                                                  entry_rank.get(), entry_group.get(), medic_var.get(),
                                                  participant_to_edit.rules_violation_disqualification,
-                                                 participant_to_edit.behaviour_disqualification, participant_to_edit,
+                                                 participant_to_edit.behaviour_disqualification,
+                                                 participant_to_edit.start_time, participant_to_edit.finish_time,
+                                                 participant_to_edit,
                                                  team, edit_window, False), text="Сохранить").grid(row=1, column=8)
 
 
@@ -170,11 +177,11 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
     frame.grid(row=frame_row, column=frame_column)
 
     # Генерация шапки
-    tkinter.Label(frame, text=team.team_name).grid(
-        row=0, column=0, columnspan=7, stick="we")
+    tkinter.Label(frame, text=team.team_name+" № "+team.team_number).grid(row=0, column=0, columnspan=7 if is_end else 4, stick="we")
+
     tkinter.Label(frame, text='Id').grid(row=1, column=0)
-    tkinter.Label(frame, text="Name").grid(row=1, column=1)
-    tkinter.Label(frame, text="start_num").grid(row=1, column=2)
+    tkinter.Label(frame, text="ФИО").grid(row=1, column=1)
+    tkinter.Label(frame, text="Стартовый номер").grid(row=1, column=2)
     if is_end:
         tkinter.Label(frame, text="Снятие за нарушение правил").grid(
             row=1, column=3)
@@ -216,10 +223,6 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
 
 
 def create_window(teams_arr: list, is_end: bool):
-
-    if is_end:
-        # Вызов функции Тишки
-        pass
 
     # Создаем главное окно
     root = tkinter.Tk()
@@ -266,10 +269,8 @@ def create_team_window(root):
     create_team_menu.minsize(250, 100)
     create_team_menu.title("Изменение участника команды")
 
-    tkinter.Label(create_team_menu, text="Название команды").grid(
-        row=0, column=0)
-    tkinter.Label(create_team_menu,
-                  text="Что-то там команды").grid(row=0, column=1)
+    tkinter.Label(create_team_menu, text="Название команды").grid(row=0, column=0)
+    tkinter.Label(create_team_menu, text="Номер команды").grid(row=0, column=1)
 
     create_team_menu.grid_columnconfigure(0, minsize=50)
     create_team_menu.grid_columnconfigure(1, minsize=50)
