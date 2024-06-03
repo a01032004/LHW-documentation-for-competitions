@@ -23,7 +23,7 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         team.add_participant(p)
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
-    else:# это изменение
+    else:  # это изменение
         p.id = entry_id
         p.name = entry_name
         p.starting_number = entry_srtrt_num
@@ -49,20 +49,23 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
     edit_window = tkinter.Toplevel()
     edit_window.minsize(250, 100)
     edit_window.title("Изменение времени участника")
-    tkinter.Label(edit_window, text="Снятие за нарушение правил").grid(row=0, column=0)
-    tkinter.Label(edit_window, text="Снятие за неспортивное поведение").grid(row=0, column=1)
+    tkinter.Label(edit_window, text="Снятие за нарушение правил").grid(
+        row=0, column=0)
+    tkinter.Label(edit_window, text="Снятие за неспортивное поведение").grid(
+        row=0, column=1)
     tkinter.Label(edit_window, text='start').grid(row=0, column=2)
     tkinter.Label(edit_window, text="finish").grid(row=0, column=3)
     edit_window.grid_columnconfigure(0, minsize=75)
     edit_window.grid_columnconfigure(1, minsize=75)
 
     violation = tkinter.BooleanVar()
-    entry_violation = tkinter.Checkbutton(edit_window, variable=violation, offvalue=False, onvalue=True)
+    entry_violation = tkinter.Checkbutton(
+        edit_window, variable=violation, offvalue=False, onvalue=True)
     entry_violation.grid(row=1, column=0)
     behaviour = tkinter.BooleanVar()
-    entry_violation = tkinter.Checkbutton(edit_window, variable=behaviour, offvalue=False, onvalue=True)
+    entry_violation = tkinter.Checkbutton(
+        edit_window, variable=behaviour, offvalue=False, onvalue=True)
     entry_violation.grid(row=1, column=1)
-    
 
     entry_start = tkinter.Entry(edit_window)
     entry_start.grid(row=1, column=2)
@@ -175,12 +178,15 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
 
     # Генерация шапки
     tkinter.Label(frame, text=team.team_name+" № "+team.team_number).grid(row=0, column=0, columnspan=7 if is_end else 4, stick="we")
+
     tkinter.Label(frame, text='Id').grid(row=1, column=0)
     tkinter.Label(frame, text="ФИО").grid(row=1, column=1)
     tkinter.Label(frame, text="Стартовый номер").grid(row=1, column=2)
     if is_end:
-        tkinter.Label(frame, text="Снятие за нарушение правил").grid(row=1, column=3)
-        tkinter.Label(frame, text="Снятие за неспортивное поведение").grid(row=1, column=4)
+        tkinter.Label(frame, text="Снятие за нарушение правил").grid(
+            row=1, column=3)
+        tkinter.Label(frame, text="Снятие за неспортивное поведение").grid(
+            row=1, column=4)
         tkinter.Label(frame, text="Время старта").grid(row=1, column=5)
         tkinter.Label(frame, text="Время финиша").grid(row=1, column=6)
 
@@ -194,18 +200,26 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
     for i in range(0, team.arr.__len__()):
         tkinter.Label(frame, text=team.arr[i].id).grid(row=i + 2, column=0)
         tkinter.Label(frame, text=team.arr[i].name).grid(row=i + 2, column=1)
-        tkinter.Label(frame, text=team.arr[i].starting_number).grid(row=i + 2, column=2)
+        tkinter.Label(frame, text=team.arr[i].starting_number).grid(
+            row=i + 2, column=2)
         if not is_end:
-            tkinter.Button(frame, text="Edit", command=lambda: edit_menu(root, team, team.arr[i])).grid(row=i + 2, column=3)
+            tkinter.Button(frame, text="Edit", command=lambda: edit_menu(
+                root, team, team.arr[i])).grid(row=i + 2, column=3)
         else:
-            tkinter.Label(frame, text=("Да" if team.arr[i].rules_violation_disqualification else "Нет")).grid(row=i + 2, column=3)
-            tkinter.Label(frame, text=("Да" if team.arr[i].behaviour_disqualification else "Нет")).grid(row=i + 2, column=4)
-            tkinter.Label(frame, text=team.arr[i].start_time).grid(row=i + 2, column=5)
-            tkinter.Label(frame, text=team.arr[i].finish_time).grid(row=i + 2, column=6)
-            tkinter.Button(frame, text="Изменить время", command=lambda: edit_time_menu(root, team.arr[i], team)).grid(row=i + 2, column=7)
+            tkinter.Label(frame, text=(
+                "Да" if team.arr[i].rules_violation_disqualification else "Нет")).grid(row=i + 2, column=3)
+            tkinter.Label(frame, text=(
+                "Да" if team.arr[i].behaviour_disqualification else "Нет")).grid(row=i + 2, column=4)
+            tkinter.Label(frame, text=team.arr[i].start_time).grid(
+                row=i + 2, column=5)
+            tkinter.Label(frame, text=team.arr[i].finish_time).grid(
+                row=i + 2, column=6)
+            tkinter.Button(frame, text="Изменить время", command=lambda: edit_time_menu(
+                root, team.arr[i], team)).grid(row=i + 2, column=7)
 
     if not is_end:
-        tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant()), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
+        tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant(
+        )), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
 
 
 def create_window(teams_arr: list, is_end: bool):
@@ -220,15 +234,19 @@ def create_window(teams_arr: list, is_end: bool):
     mainframe.grid(row=0, column=0)
 
     for i in range(0, teams_arr.__len__()):
-        create_table(teams_arr[i], root, mainframe, is_end, i // 3 if not is_end else i, i % 3 if not is_end else 1)
+        create_table(teams_arr[i], root, mainframe, is_end, i //
+                     3 if not is_end else i, i % 3 if not is_end else 1)
 
     start_button_frame = tkinter.Frame(root)
 
-    if is_end: # Здесь вызов функции Айдара вместо create_team_window
-        add_team_button = tkinter.Button(start_button_frame, text="Подвести итоги", command=lambda: create_team_window(root))
+    if is_end:  # Здесь вызов функции Айдара вместо create_team_window
+        add_team_button = tkinter.Button(
+            start_button_frame, text="Подвести итоги", command=lambda: create_team_window(root))
     else:
-        add_team_button = tkinter.Button(start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
-    start_button = tkinter.Button(start_button_frame, text="Start", command=lambda: window_rebuild(root, teams_arr, True))
+        add_team_button = tkinter.Button(
+            start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
+    start_button = tkinter.Button(
+        start_button_frame, text="Start", command=lambda: window_rebuild(root, teams_arr, True))
     start_button_frame.grid(row=1, column=1)
     add_team_button.pack(padx=50, pady=0)
     start_button.pack(padx=50, pady=5)
@@ -254,17 +272,17 @@ def create_team_window(root):
     tkinter.Label(create_team_menu, text="Название команды").grid(row=0, column=0)
     tkinter.Label(create_team_menu, text="Номер команды").grid(row=0, column=1)
 
-
     create_team_menu.grid_columnconfigure(0, minsize=50)
     create_team_menu.grid_columnconfigure(1, minsize=50)
-
 
     entry_name = tkinter.Entry(create_team_menu)
     entry_name.grid(row=1, column=0)
     entry_something = tkinter.Entry(create_team_menu)
     entry_something.grid(row=1, column=1)
 
-    tkinter.Button(create_team_menu, command=lambda: create_team(entry_name, entry_something, create_team_menu), text="Сохранить").grid(row=1, column=2)
+    tkinter.Button(create_team_menu, command=lambda: create_team(
+        entry_name, entry_something, create_team_menu), text="Сохранить").grid(row=1, column=2)
+
 
 def create_first_window():
 
@@ -277,15 +295,16 @@ def create_first_window():
     mainframe = tkinter.Frame(root)
     mainframe.grid(row=0, column=0)
 
-
     add_team_button_frame = tkinter.Frame(root)
 
-    add_team_button = tkinter.Button(add_team_button_frame, text="Добавить первую команду", command=lambda: create_team_window(root))
+    add_team_button = tkinter.Button(
+        add_team_button_frame, text="Добавить первую команду", command=lambda: create_team_window(root))
     add_team_button_frame.grid(row=1, column=1)
     add_team_button.pack(padx=250, pady=250)
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
+
 
 '''
 part1 = Participant(1, "Dima", 20, "M")
@@ -300,5 +319,3 @@ team1, team2, team3, team4
 teams = []
 
 create_first_window()
-
-

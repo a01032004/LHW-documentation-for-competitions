@@ -12,4 +12,3 @@ class Team:
 
     def delete_participant(self, participant):
         self.arr.remove(participant)
-
