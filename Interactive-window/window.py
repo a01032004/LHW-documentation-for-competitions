@@ -1,8 +1,9 @@
 import tkinter
 from classes.Participant import Participant
 from classes.Team import Team
-#from makeExel.makeExel import make1exel
+from makeExel.makeExel import make1exel
 from functools import partial
+import calcs.calcs as calc
 MAIN_TEAM_ARRAY = []
 
 
@@ -42,7 +43,6 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
 
 
 def window_rebuild(root, teams_arr, is_end):
- #   make1exel(teams_arr)
     root.destroy()
     create_window(teams_arr, is_end)
 
@@ -86,6 +86,8 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
         behaviour.set(True)
     else:
         behaviour.set(False)
+
+    # Здесь будет код, переводящий строку в dtetime
 
     tkinter.Button(edit_window, text="Изменить", command=lambda: apply_changes(root, participant_to_edit.id,
                                                                                participant_to_edit.name,
@@ -175,10 +177,6 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
                                                  team, edit_window, False, is_addition), text="Сохранить").grid(row=1, column=8)
 
 
-
-
-
-
 # Создаем функцию для создания таблицы
 def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, frame_column: int):
     frame = tkinter.Frame(mainframe, padx=5, pady=5)
@@ -246,20 +244,29 @@ def create_window(teams_arr: list, is_end: bool):
     start_button_frame = tkinter.Frame(root)
 
     if is_end:  # Здесь вызов функции Айдара вместо create_team_window
-        pass
- #       add_team_button = tkinter.Button(
-  #          start_button_frame, text="Подвести итоги", command=lambda: make1exel(teams_arr))
+        add_team_button = tkinter.Button(
+            start_button_frame, text="Подвести итоги", command=lambda: last_exel_outcome(teams_arr))
     else:
         add_team_button = tkinter.Button(
             start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
     start_button = tkinter.Button(
-        start_button_frame, text="Start", command=lambda: window_rebuild(root, teams_arr, True))
+        start_button_frame, text="Начать соревнование", command=lambda: window_rebuild_with_exel_outcome(root, teams_arr, True))
     start_button_frame.grid(row=1, column=1)
     add_team_button.pack(padx=50, pady=0)
     start_button.pack(padx=50, pady=5)
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
+
+
+def last_exel_outcome(teams_arr):
+    make1exel(teams_arr, calc.calc_personal_competition(teams_arr), calc.calc_team_competition(teams_arr, 1), 2)
+
+
+def window_rebuild_with_exel_outcome(root, teams_arr, is_end):
+    make1exel(teams_arr, [], [], 1)
+    root.destroy()
+    create_window(teams_arr, is_end)
 
 
 def create_team(entry_name, entry_something, create_team_menu):

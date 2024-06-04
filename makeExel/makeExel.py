@@ -1,6 +1,6 @@
 from classes.Participant import Participant
 from classes.Team import Team
-import openpyxl # type: ignore
+import openpyxl
 from openpyxl.styles import NamedStyle, Font, Border, Side # type: ignore
 from openpyxl.styles import Alignment # type: ignore
 

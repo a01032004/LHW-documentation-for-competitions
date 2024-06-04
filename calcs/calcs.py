@@ -4,11 +4,11 @@
 
 import datetime as dt
 
-import calcs.utilites as ut
+from calcs.utilites import *
 import config
 
-from classes.Participant import Participant
-from classes.Team import Team
+# from classes.Participant import Participant
+# from classes.Team import Team
 
 
 def calc_personal_competition(arr: list):
@@ -42,14 +42,14 @@ def calc_personal_competition(arr: list):
             dt.timedelta(hours=start.hour, minutes=start.minute,
                          seconds=start.second)
 
-        pure_time = ut.total_seconds_to_time(delta.total_seconds())
+        pure_time = total_seconds_to_time(delta.total_seconds())
         part.pure_time = pure_time
 
         # Высчитываем время, домноженное на коэффициент
         # factor = ut.get_factor(part.sex, part.age)
 
         factor_time = part.factor * delta.total_seconds()
-        result_time = ut.total_seconds_to_time(factor_time)
+        result_time = total_seconds_to_time(factor_time)
         part.result_time = result_time
 
         result.append(part)
@@ -85,12 +85,12 @@ def calc_team_competition(teams: list, group: int):
             team.arr.sort(key=lambda part: (part.sex, part.place))
 
             # Считаем общий бал
-            woman = ut.get_best_woman(team.arr)
+            woman = get_best_woman(team.arr)
             if woman:
-                team.team_points += ut.sum_point(
+                team.team_points += sum_point(
                     team.arr, config.number_of_best_parts_in_first_group) + woman.place
             else:
-                team.team_points += ut.sum_point(
+                team.team_points += sum_point(
                     team.arr, config.number_of_best_parts_in_first_group + 1)
 
             result.append(team)
@@ -103,7 +103,7 @@ def calc_team_competition(teams: list, group: int):
             team.sort(key=lambda part: part.place)
 
             # Считаем бал
-            team.team_points += ut.sum_point(team.arr,
+            team.team_points += sum_point(team.arr,
                                              config.number_of_best_parts_in_second_group)
 
             result.append(team)
@@ -115,13 +115,13 @@ def calc_team_competition(teams: list, group: int):
             team.sort(key=lambda part: part.place)
 
             # Считаем балл
-            team.team_points += ut.sum_point(team.arr,
+            team.team_points += sum_point(team.arr,
                                              config.number_of_best_parts_in_third_group)
 
             result.append(team)
 
     # Высчитываем место каманд
-    result.sort(key=lambda  team: team.team_points)
+    result.sort(key=lambda team: team.team_points)
     for index in range(0, len(result)):
         result[index].place = index + 1
 
