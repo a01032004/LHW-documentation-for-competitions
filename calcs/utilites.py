@@ -18,7 +18,7 @@ def get_factor(sex: bool, age: int):
         float: коэффициент 
     """
     factors = []
-    path = config.man_factor_path if sex else config.woman_factor_path
+    path = config.man_factor_path if not sex else config.woman_factor_path
 
     with open(path, "r") as file:
         for row in file.readlines():

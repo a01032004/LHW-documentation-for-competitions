@@ -76,7 +76,6 @@ def calc_team_competition(teams: list, group: int):
     """
 
     result = []
-    countable = []  # Массив, с участниками, время которых будет учтено
 
     # 4 мужчины и 1 женщица. При отсутствии женщин в команде, по 5 мужчинам
     if group == 1:
@@ -115,13 +114,18 @@ def calc_team_competition(teams: list, group: int):
             # Сортируем список команды сначала по месту
             team.sort(key=lambda part: part.place)
 
-            # Считаем бал
+            # Считаем балл
             team.team_points += ut.sum_point(team.arr,
                                              config.number_of_best_parts_in_third_group)
 
             result.append(team)
 
+    # Высчитываем место каманд
+    result.sort(key=lambda  team: team.team_points)
+    for index in range(0, len(result)):
+        result[index].place = index + 1
+
     # Сортируем команды по названию, а после по очкам
-    teams.sort(key=lambda team: (team.team_name, team.team_points))
+    result.sort(key=lambda team: (team.team_name, team.team_points))
 
     return result

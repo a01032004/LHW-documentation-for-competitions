@@ -10,6 +10,7 @@ class Team:
         self.team_number = team_number
         
         self.team_points = 0
+        self.place = 0
 
     def add_participant(self, participant):
         self.arr.append(participant)
@@ -18,5 +19,5 @@ class Team:
         self.arr.remove(participant)
 
     def __str__(self):
-        string = "Название: " + str(self.team_name) + "; Очки: " + str(self.team_points)
+        string = "Название: " + str(self.team_name) + "; Очки: " + str(self.team_points) + "; Место: " + str(self.place)
         return string

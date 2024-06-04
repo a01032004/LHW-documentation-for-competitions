@@ -6,10 +6,11 @@ from calcs.utilites import get_factor
 class Participant:
 
     def __init__(  # Зачем id и starting_number, если можно сортировать в лексико-графическом порядке?
-        self, _id=-1, name="", starting_number=-1, age=-1,
-        sex=False, rank="", group=1, medical_allowance=False
+        self, _id=-1, name="", starting_number=-1, age=18,
+        sex="м", rank="", group=1, medical_allowance=False
     ):
-        self.sex = sex # False подразумевает мужской пол
+        # False подразумевает мужской пол
+        self.sex = False if sex.upper() == "М" else True
         self.age = age
         self.name = name
         self.id = _id

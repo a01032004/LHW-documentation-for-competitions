@@ -1,13 +1,14 @@
 import tkinter
 from classes.Participant import Participant
 from classes.Team import Team
-
+#from makeExel.makeExel import make1exel
+from functools import partial
 MAIN_TEAM_ARRAY = []
 
 
 # В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
-def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, entry_start, entry_finish, p: Participant, team: Team, window, is_end):
-    if p.is_empty():# это добавление
+def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, entry_start, entry_finish, p: Participant, team: Team, window, is_end, is_addition):
+    if is_addition:# это добавление
         p.id = entry_id
         p.name = entry_name
         p.starting_number = entry_srtrt_num
@@ -41,11 +42,13 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
 
 
 def window_rebuild(root, teams_arr, is_end):
+ #   make1exel(teams_arr)
     root.destroy()
     create_window(teams_arr, is_end)
 
 
 def edit_time_menu(root, participant_to_edit: Participant, team: Team):
+
     edit_window = tkinter.Toplevel()
     edit_window.minsize(250, 100)
     edit_window.title("Изменение времени участника")
@@ -84,7 +87,7 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
     else:
         behaviour.set(False)
 
-    tkinter.Button(edit_window, text="Сохранить", command=lambda: apply_changes(root, participant_to_edit.id,
+    tkinter.Button(edit_window, text="Изменить", command=lambda: apply_changes(root, participant_to_edit.id,
                                                                                participant_to_edit.name,
                                                                                participant_to_edit.starting_number,
                                                                                participant_to_edit.age,
@@ -95,10 +98,11 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
                                                                                violation.get(), behaviour.get(),
                                                                                 entry_start.get(), entry_finish.get(),
                                                                                participant_to_edit, team,
-                                                                               edit_window, True)).grid(row=1, column=4)
+                                                                               edit_window, True, False)).grid(row=1, column=4)
 
 
 def edit_menu(root, team: Team, participant_to_edit: Participant):
+    is_addition = True if participant_to_edit == Participant() else False
 
     edit_window = tkinter.Toplevel()
     edit_window.minsize(250, 100)
@@ -168,7 +172,11 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
                                                  participant_to_edit.behaviour_disqualification,
                                                  participant_to_edit.start_time, participant_to_edit.finish_time,
                                                  participant_to_edit,
-                                                 team, edit_window, False), text="Сохранить").grid(row=1, column=8)
+                                                 team, edit_window, False, is_addition), text="Сохранить").grid(row=1, column=8)
+
+
+
+
 
 
 # Создаем функцию для создания таблицы
@@ -203,8 +211,7 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
         tkinter.Label(frame, text=team.arr[i].starting_number).grid(
             row=i + 2, column=2)
         if not is_end:
-            tkinter.Button(frame, text="Edit", command=lambda: edit_menu(
-                root, team, team.arr[i])).grid(row=i + 2, column=3)
+            tkinter.Button(frame, text="Edit", command=partial(edit_menu, root, team, team.arr[i])).grid(row=i + 2, column=3)
         else:
             tkinter.Label(frame, text=(
                 "Да" if team.arr[i].rules_violation_disqualification else "Нет")).grid(row=i + 2, column=3)
@@ -214,12 +221,11 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
                 row=i + 2, column=5)
             tkinter.Label(frame, text=team.arr[i].finish_time).grid(
                 row=i + 2, column=6)
-            tkinter.Button(frame, text="Изменить время", command=lambda: edit_time_menu(
-                root, team.arr[i], team)).grid(row=i + 2, column=7)
+            tkinter.Button(frame, text="Изменить время", command=partial(edit_time_menu, root, team.arr[i], team)).grid(row=i + 2, column=7)
 
     if not is_end:
-        tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant(
-        )), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
+        tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant()
+                                                        ), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
 
 
 def create_window(teams_arr: list, is_end: bool):
@@ -240,8 +246,9 @@ def create_window(teams_arr: list, is_end: bool):
     start_button_frame = tkinter.Frame(root)
 
     if is_end:  # Здесь вызов функции Айдара вместо create_team_window
-        add_team_button = tkinter.Button(
-            start_button_frame, text="Подвести итоги", command=lambda: create_team_window(root))
+        pass
+ #       add_team_button = tkinter.Button(
+  #          start_button_frame, text="Подвести итоги", command=lambda: make1exel(teams_arr))
     else:
         add_team_button = tkinter.Button(
             start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
