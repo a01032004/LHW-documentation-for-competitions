@@ -117,7 +117,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
             sheet[f"C{count + 11}"] = partic.rank
             sheet[f"D{count + 11}"] = partic.name
             sheet[f"E{count + 11}"] = partic.age
-            sheet[f"F{count + 11}"] = ""
+            sheet[f"F{count + 11}"] = partic.group
             sheet[f"G{count + 11}"] = partic.start_time
             sheet[f"H{count + 11}"] = partic.medical_allowance
 
@@ -264,10 +264,10 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
             sheet[f"F{count + 11}"] = partic.group
             sheet[f"G{count + 11}"] = partic.start_time
             sheet[f"H{count + 11}"] = partic.finish_time
-            sheet[f"G{count + 11}"] = partic.pure_time
-            sheet[f"H{count + 11}"] = partic.factor
-            sheet[f"G{count + 11}"] = partic.result_time
-            sheet[f"H{count + 11}"] = partic.place
+            sheet[f"I{count + 11}"] = partic.pure_time
+            sheet[f"J{count + 11}"] = partic.factor
+            sheet[f"K{count + 11}"] = partic.result_time
+            sheet[f"L{count + 11}"] = partic.place
 
             sheet[f"A{count + 11}"].alignment = Alignment(horizontal='center')
             sheet[f"B{count + 11}"].alignment = Alignment(horizontal='center')
