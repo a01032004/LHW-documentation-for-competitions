@@ -4,6 +4,8 @@ from classes.Team import Team
 from makeExel.makeExel import make1exel
 from functools import partial
 import calcs.calcs as calc
+from calcs.utilites import string_time_to_float
+from calcs.utilites import total_seconds_to_time
 MAIN_TEAM_ARRAY = []
 
 
@@ -36,8 +38,19 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         p.medical_allowance = medic
         p.rules_violation_disqualification = violation
         p.behaviour_disqualification = behaviour
-        p.start_time = entry_start
-        p.finish_time = entry_finish
+
+        if isinstance(entry_start, str) and isinstance(entry_finish, str):
+            # Здесь будет код, переводящий строку в datetime
+            start_time = string_time_to_float(entry_start)
+            finish_time = string_time_to_float(entry_finish)
+
+            start_time = total_seconds_to_time(start_time)
+            finish_time = total_seconds_to_time(finish_time)
+            p.start_time = start_time
+            p.finish_time = finish_time
+        else:
+            p.start_time = entry_start
+            p.finish_time = entry_finish
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
 
@@ -87,7 +100,6 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
     else:
         behaviour.set(False)
 
-    # Здесь будет код, переводящий строку в dtetime
 
     tkinter.Button(edit_window, text="Изменить", command=lambda: apply_changes(root, participant_to_edit.id,
                                                                                participant_to_edit.name,
@@ -98,7 +110,7 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
                                                                                participant_to_edit.group,
                                                                                participant_to_edit.medical_allowance,
                                                                                violation.get(), behaviour.get(),
-                                                                                entry_start.get(), entry_finish.get(),
+                                                                               entry_start.get(), entry_finish.get(),
                                                                                participant_to_edit, team,
                                                                                edit_window, True, False)).grid(row=1, column=4)
 

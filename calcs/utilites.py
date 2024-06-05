@@ -44,6 +44,22 @@ def total_seconds_to_time(seconds: float):
     )
 
 
+def string_time_to_float(time: str):
+    """Перевод строки времени в секунды
+
+    Args:
+        time (str): время, представленное в строчке
+        следующего формата  (часы, минуты, секунды): "00:00:00" или "00 00 00"
+
+    Returns:
+        float: время в секундах
+    """
+    hour = int(time[0:2]) * 3600
+    minute = int(time[3:5]) * 60
+    seconds = int(time[6:8])
+    return float(hour + minute + seconds)
+
+
 def get_best_woman(team: list):
     """Находим женщину с наилудшим результатом в команде
 

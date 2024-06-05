@@ -283,6 +283,29 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         #### pass    заполнение данных   ######
         count_peopple = 9
 
+        count = 0
+
+
+        for partic in sort_arr_1.arr:
+            sheet[f"A{count + 11}"] = partic.id
+            sheet[f"B{count + 11}"] = partic.starting_number
+            sheet[f"C{count + 11}"] = partic.rank
+            sheet[f"D{count + 11}"] = partic.name
+            sheet[f"E{count + 11}"] = partic.age
+            sheet[f"F{count + 11}"] = partic.group
+            sheet[f"G{count + 11}"] = partic.start_time
+            sheet[f"H{count + 11}"] = partic.finish_time
+            sheet[f"G{count + 11}"] = partic.pure_time
+            sheet[f"H{count + 11}"] = partic.factor
+            sheet[f"G{count + 11}"] = partic.result_time
+            sheet[f"H{count + 11}"] = partic.place
+            count = count + 1
+
+
+
+
+
+
 
         # аполнение подписей
         sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
@@ -294,7 +317,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet.merge_cells(f"A{count_peopple + 15}:C{count_peopple + 15}")
         sheet[f"A{count_peopple + 15}"].value = 'Главный секретарь'
         sheet[f"A{count_peopple + 15}"].alignment = Alignment(horizontal='left')
-        sheet.merge_cells(f"E{count_peopple + 15}:F{count_peopple + 15}")
+        sheet.merge_cells(f"E{count_people + 15}:F{count_peopple + 15}")
         sheet[f"E{count_peopple + 15}"].value = 'Б.Б.Ббббб'
 
         sheet.merge_cells(f"A{count_peopple + 17}:B{count_peopple + 17}")
@@ -420,7 +443,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
                 sheet[f"{alphabet[count]}{pos + 12}"] = partic.place
                 count = count + 1
 
-            pos = pos + 2
+
 
             sheet.merge_cells(f"J{11 + pos}:J{11 + pos + 1}")
             sheet[f"J{pos + 11}"] = team.team_points
@@ -428,7 +451,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
             sheet.merge_cells(f"K{11 + pos}:K{11 + pos + 1}")
             sheet[f"K{pos + 11}"] = team.place
             sheet[f"K{pos + 11}"].alignment = Alignment(vertical='center')
-
+            pos = pos + 2
 
 
 
