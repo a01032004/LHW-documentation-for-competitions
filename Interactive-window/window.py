@@ -9,7 +9,17 @@ from calcs.utilites import total_seconds_to_time
 MAIN_TEAM_ARRAY = []
 
 
-# В этой функции будет происходить изменение данных в эксель, и, как я понимаю, снос имеющейся таблицы и создание новой с измененными данными
+'''
+    root: основное окно
+    entry_id, entry_name, entry_srtrt_num, entry_age, 
+    entry_sex, entry_rank, entry_group, medic, violation, 
+    behaviour, entry_start, entry_finish: данные для изменения или добавления участника
+    p: Participant,
+    team: Team,
+    window: передача окна, для его закрытия после удаления,
+    is_end: нужна для того, чтобы понимать какое из окон реализовывать.(окно заполнения участников или их времени), 
+    is_addition: добавляем участника или изменяем
+'''
 def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_sex, entry_rank, entry_group, medic, violation, behaviour, entry_start, entry_finish, p: Participant, team: Team, window, is_end, is_addition):
     if is_addition:# это добавление
         p.id = entry_id
@@ -40,7 +50,6 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         p.behaviour_disqualification = behaviour
 
         if isinstance(entry_start, str) and isinstance(entry_finish, str):
-            # Здесь будет код, переводящий строку в datetime
             start_time = string_time_to_float(entry_start)
             finish_time = string_time_to_float(entry_finish)
 
@@ -54,12 +63,17 @@ def apply_changes(root, entry_id, entry_name, entry_srtrt_num, entry_age, entry_
         window.destroy()
         window_rebuild(root, MAIN_TEAM_ARRAY, is_end)
 
-
+''''
+    открытие нового окна, вероятно, с новым is_end
+'''
 def window_rebuild(root, teams_arr, is_end):
     root.destroy()
     create_window(teams_arr, is_end)
 
 
+'''
+    окошко изменения времени и дисквалификаций участника
+'''
 def edit_time_menu(root, participant_to_edit: Participant, team: Team):
 
     edit_window = tkinter.Toplevel()
@@ -90,6 +104,8 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
 
     entry_start.insert(-1, participant_to_edit.start_time)
     entry_finish.insert(-1, participant_to_edit.finish_time)
+
+    # Блок для отображения текущего состояния нажатия чекбаттона
     if participant_to_edit.rules_violation_disqualification:
         violation.set(True)
     else:
@@ -115,6 +131,9 @@ def edit_time_menu(root, participant_to_edit: Participant, team: Team):
                                                                                edit_window, True, False)).grid(row=1, column=4)
 
 
+'''
+    окошко изменения имени, возраста и тд участника
+'''
 def edit_menu(root, team: Team, participant_to_edit: Participant):
     is_addition = True if participant_to_edit == Participant() else False
 
@@ -161,8 +180,9 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     entry_medic = tkinter.Checkbutton(edit_window, variable=medic_var,
                                       offvalue=False, onvalue=True)
 
-    entry_medic.grid(row=1, column=7)#11
+    entry_medic.grid(row=1, column=7)
 
+    # установка текущих данных уастника
     if participant_to_edit.id != -1:
         entry_id.insert(-1, participant_to_edit.id)
     entry_name.insert(-1, participant_to_edit.name)
@@ -189,7 +209,11 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
                                                  team, edit_window, False, is_addition), text="Сохранить").grid(row=1, column=8)
 
 
-# Создаем функцию для создания таблицы
+'''
+    mainframe: фрейм, куда всё пихаем,
+    is_end: нужна для того, чтобы понимать какое из окон реализовывать.(окно заполнения участников или их времени)
+    frame_row, frame_column: нужны для переноса участников на новую строку, чтобы таблица в экран влезала
+'''
 def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, frame_column: int):
     frame = tkinter.Frame(mainframe, padx=5, pady=5)
     frame.grid(row=frame_row, column=frame_column)
@@ -237,7 +261,9 @@ def create_table(team: Team, root, mainframe, is_end: bool, frame_row: int, fram
         tkinter.Button(frame, command=lambda: edit_menu(root, team, Participant()
                                                         ), text="Добавить участника").grid(row=team.arr.__len__() + 2, columnspan=3, stick="we")
 
-
+'''
+    is_end: нужна для того, чтобы понимать какое из окон реализовывать.(окно заполнения участников или их времени)
+'''
 def create_window(teams_arr: list, is_end: bool):
 
     # Создаем главное окно
@@ -249,13 +275,14 @@ def create_window(teams_arr: list, is_end: bool):
     mainframe = tkinter.Frame(root)
     mainframe.grid(row=0, column=0)
 
-    for i in range(0, teams_arr.__len__()):
+    # Вывод табличек с командами
+    for i in range(0, teams_arr.__len__()): # Вывод таблички с командой
         create_table(teams_arr[i], root, mainframe, is_end, i //
                      3 if not is_end else i, i % 3 if not is_end else 1)
 
     start_button_frame = tkinter.Frame(root)
 
-    if is_end:  # Здесь вызов функции Айдара вместо create_team_window
+    if is_end:
         add_team_button = tkinter.Button(
             start_button_frame, text="Подвести итоги", command=lambda: last_exel_outcome(teams_arr))
     else:
@@ -281,6 +308,13 @@ def window_rebuild_with_exel_outcome(root, teams_arr, is_end):
     create_window(teams_arr, is_end)
 
 
+'''
+    Функция нужна для добавления команды в глобальный массив команд
+
+    entry_something: номер команды
+    create_team_menu: менюшка создания команды. Передаём, чтобы снести
+    entry_name: название команды
+'''
 def create_team(entry_name, entry_something, create_team_menu):
     team = Team([], entry_name.get(), entry_something.get())
     global MAIN_TEAM_ARRAY
@@ -330,18 +364,5 @@ def create_first_window():
 
     # Запускаем главный цикл обработки событий
     root.mainloop()
-
-
-'''
-part1 = Participant(1, "Dima", 20, "M")
-part2 = Participant(2, "Yana", 21, "Z")
-
-team1 = Team([part1, part2, part1])
-team2 = Team([part2, part1])
-team3 = Team([part2, part1, part1, part2])
-team4 = Team([part2, part1])
-team1, team2, team3, team4
-'''
-teams = []
 
 create_first_window()
