@@ -161,7 +161,7 @@ def edit_menu(root, team: Team, participant_to_edit: Participant):
     entry_medic = tkinter.Checkbutton(edit_window, variable=medic_var,
                                       offvalue=False, onvalue=True)
 
-    entry_medic.grid(row=1, column=7)
+    entry_medic.grid(row=1, column=7)#11
 
     if participant_to_edit.id != -1:
         entry_id.insert(-1, participant_to_edit.id)
