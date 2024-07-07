@@ -10,30 +10,46 @@ sheet = book.active'''
 # workbook = openpyxl.load_workbook("start.xlsx")
 # print(sheet["i26"].value)
 def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
+    """ToDO: _summary_
+
+    Args:
+        arr_teams (_type_): _description_
+        sort_arr_1 (_type_): _description_
+        sort_arr_2 (_type_): _description_
+        temp (_type_): _description_
+    """
 
     #создаём документ .xls
     wb = openpyxl.Workbook()
+    
     #создаём страницу/лист "стартовый протокол"
     wb.create_sheet(title='Стартовый протокол', index=0)
+    
     # получаем лист, с которым будем работать
     sheet = wb['Стартовый протокол']
 
     # создаем именованный стиль
     ns = NamedStyle(name='highlight')
+    
     # создаем именованный стиль для текста
     ns.font = Font(bold=True, size=20, b=True)
+    
     # создаем именованный стиль для границ табоицы
     border = Side(style='thick', color='000000')
     ns.border = Border(left=border, top=border, right=border, bottom=border)
     wb.add_named_style(ns)
+    
     # начинаем формирование шапки стартового фацла
 
     # Объединяем ячейки A1:I1
     sheet.merge_cells('A1:I1')
+    
     #Теперь объединённая ячейка стьала, как одна и в неё записываем текст
     sheet['A1'].value = 'СТАРТОВЫЙ ПРОТОКОЛ'
+    
     #выравнивание текста
     sheet['A1'].alignment = Alignment(horizontal='center')
+    
     #применнение стилей для текста
     sheet["A1"].font = Font(bold=True)
 
@@ -114,6 +130,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     sheet.column_dimensions['H'].width = 10
     sheet.column_dimensions['D'].width = 38
     ns.font = Font(bold=False, size=20, b=False)
+    
     #### pass    заполнение данных   ######
     count_peopple = 9
     count = 0
@@ -137,6 +154,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
             sheet[f"G{count + 11}"].alignment = Alignment(horizontal='center')
             sheet[f"H{count + 11}"].alignment = Alignment(horizontal='center')
             count = count + 1
+    
     # аполнение подписей
     sheet.merge_cells(f"A{count_peopple + 14}:C{count_peopple + 14}")
     sheet[f"A{count_peopple + 14}"].value = 'Главный судья'
@@ -150,6 +168,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     sheet[f"E{count_peopple + 15}"].value = 'Б.Б.Ббббб'
     sheet.merge_cells(f"A{count_peopple + 17}:B{count_peopple + 17}")
     sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
+    
     # записываем файл и сохраняем
     wb.save('start.xlsx')
 
@@ -161,10 +180,13 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     ################################################     Итоговый     #############################################################
     #ele:
     if temp == 2:
+        
         #создаём новый лист/старницу
         wn = wb.create_sheet('Итоговый протокол')
+        
         # получаем лист, с которым будем работать
         sheet = wb['Итоговый протокол']
+        
         # начинаем формирование шапки стартового протокола
         sheet.merge_cells('A1:L1')
         sheet['A1'].value = 'ИТОГОВЫЙ ПРОТОКОЛ'
@@ -179,6 +201,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet['A3'].alignment = Alignment(horizontal='center')
         sheet["A3"].font = Font(bold=True)
         sheet.merge_cells('A4:L4')
+        
         # получаем группу соревнований
         type_competition = 1
         if (type_competition == 1):
@@ -209,6 +232,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet.merge_cells('E8:F8')
         sheet['E8'].value = 'Стиль - свободный'
         sheet['E8'].alignment = Alignment(horizontal='left')
+        
         # Заполнение таблицы
         sheet['A10'].value = '№'
         sheet['B10'].value = 'Стартовый номер'
@@ -261,7 +285,8 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet.row_dimensions[10].height = 58
         sheet.column_dimensions['H'].width = 10
         sheet.column_dimensions['D'].width = 38
-        №стили для текста
+        
+        #стили для текста
         ns.font = Font(bold=False, size=20, b=False)
 
         
