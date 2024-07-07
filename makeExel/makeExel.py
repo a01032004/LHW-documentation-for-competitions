@@ -4,19 +4,15 @@ import openpyxl
 from openpyxl.styles import NamedStyle, Font, Border, Side # type: ignore
 from openpyxl.styles import Alignment # type: ignore
 
-'''book = openpyxl.open("first.xlsx", read_only=True)
-sheet = book.active'''
 
-# workbook = openpyxl.load_workbook("start.xlsx")
-# print(sheet["i26"].value)
 def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
-    """ToDO: _summary_
+    """
 
     Args:
-        arr_teams (_type_): _description_
-        sort_arr_1 (_type_): _description_
-        sort_arr_2 (_type_): _description_
-        temp (_type_): _description_
+        arr_teams (list): массив команд
+        sort_arr_1 (list): отсортированный массив (для вывода в эксель) участников в личном рейтинге
+        sort_arr_2 (list): отсортированный массив для командного рейтинга, отсортированных по имени и по очкам
+        temp (int): вообще не нужна
     """
 
     #создаём документ .xls
