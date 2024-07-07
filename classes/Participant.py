@@ -11,7 +11,7 @@ class Participant:
     ):
         # False подразумевает мужской пол
         self.sex = False if sex.upper() == "М" else True
-        self.age = age
+        self.age = int(age) # ToDo: Почему-то становится str. Пофиксить
         self.name = name
         self.id = _id
         self.rank = rank
@@ -31,7 +31,7 @@ class Participant:
         self.place = -1
 
         # Высчитывается коэффициент, на который должно домножиться время
-        self.factor = get_factor(self.sex, self.age)
+        # self.factor = get_factor(self.sex, self.age)
 
     def edit_sex(self, sex):
         self.sex = sex

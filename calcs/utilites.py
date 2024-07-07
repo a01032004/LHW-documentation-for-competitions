@@ -7,16 +7,17 @@ import datetime as dt
 import config
 
 
-def get_factor(sex: bool, age: int):
+def get_factor(sex: bool, age):
     """Получение коэффициента, на который будет домножатся чистое время
 
     Args:
         sex (bool): пол участника
-        age (int): возвраст участника
+        age: возвраст участника
 
     Returns:
         float: коэффициент 
     """
+    
     factors = []
     path = config.man_factor_path if not sex else config.woman_factor_path
 
@@ -26,7 +27,7 @@ def get_factor(sex: bool, age: int):
 
     index = -1
     for interval in factors[0]:
-        if age - interval < 0:
+        if int(age) - interval < 0:
             index = factors[0].index(interval)
             break
 
