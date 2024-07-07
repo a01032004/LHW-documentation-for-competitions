@@ -52,6 +52,7 @@ class Participant:
         string = "Номер: " + str(self.starting_number) + "; Имя: " + self.name + "; Возраст: " + str(self.age)
         string += "; Результат: " + str(self.result_time)
         string += "; Место: " + str(self.place)
+        string += "; Коэффициент: " + str(self.factor)
         return string
 
     def __eq__(self, other_participant):

@@ -6,7 +6,8 @@ from functools import partial
 import calcs.calcs as calc
 from calcs.utilites import string_time_to_float
 from calcs.utilites import total_seconds_to_time
-MAIN_TEAM_ARRAY = []
+
+MAIN_TEAM_ARRAY = [] # ToDo: Что это?
 
 
 '''
