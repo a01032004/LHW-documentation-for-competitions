@@ -11,24 +11,30 @@ sheet = book.active'''
 # print(sheet["i26"].value)
 def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
 
+    #создаём документ .xls
     wb = openpyxl.Workbook()
+    #создаём страницу/лист "стартовый протокол"
     wb.create_sheet(title='Стартовый протокол', index=0)
     # получаем лист, с которым будем работать
     sheet = wb['Стартовый протокол']
 
     # создаем именованный стиль
     ns = NamedStyle(name='highlight')
+    # создаем именованный стиль для текста
     ns.font = Font(bold=True, size=20, b=True)
+    # создаем именованный стиль для границ табоицы
     border = Side(style='thick', color='000000')
     ns.border = Border(left=border, top=border, right=border, bottom=border)
     wb.add_named_style(ns)
-    # sheet['A1'].style = 'highlight'
     # начинаем формирование шапки стартового фацла
 
-    #if temp == 1:
+    # Объединяем ячейки A1:I1
     sheet.merge_cells('A1:I1')
+    #Теперь объединённая ячейка стьала, как одна и в неё записываем текст
     sheet['A1'].value = 'СТАРТОВЫЙ ПРОТОКОЛ'
+    #выравнивание текста
     sheet['A1'].alignment = Alignment(horizontal='center')
+    #применнение стилей для текста
     sheet["A1"].font = Font(bold=True)
 
     sheet.merge_cells('A2:I2')
@@ -41,6 +47,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     sheet['A3'].alignment = Alignment(horizontal='center')
     sheet["A3"].font = Font(bold=True)
     sheet.merge_cells('A4:I4')
+    
     # получаем группу соревнований
     type_competition = 1
     if (type_competition == 1):
@@ -143,7 +150,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     sheet[f"E{count_peopple + 15}"].value = 'Б.Б.Ббббб'
     sheet.merge_cells(f"A{count_peopple + 17}:B{count_peopple + 17}")
     sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
-    # записываем файл
+    # записываем файл и сохраняем
     wb.save('start.xlsx')
 
 
@@ -154,10 +161,11 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     ################################################     Итоговый     #############################################################
     #ele:
     if temp == 2:
+        #создаём новый лист/старницу
         wn = wb.create_sheet('Итоговый протокол')
         # получаем лист, с которым будем работать
         sheet = wb['Итоговый протокол']
-        # начинаем формирование шапки стартового фацла
+        # начинаем формирование шапки стартового протокола
         sheet.merge_cells('A1:L1')
         sheet['A1'].value = 'ИТОГОВЫЙ ПРОТОКОЛ'
         sheet['A1'].alignment = Alignment(horizontal='center')
@@ -248,10 +256,15 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet["J10"].font = Font(bold=True)
         sheet["K10"].font = Font(bold=True)
         sheet["L10"].font = Font(bold=True)
+
+        #высота/ширина столбцов
         sheet.row_dimensions[10].height = 58
         sheet.column_dimensions['H'].width = 10
         sheet.column_dimensions['D'].width = 38
+        №стили для текста
         ns.font = Font(bold=False, size=20, b=False)
+
+        
         #### pass    заполнение данных   ######
         count_peopple = 9
         count = 0
@@ -301,6 +314,7 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
 
         ###########################################              Заключительная таблица                 ############################################
 
+        #создаём новый лист/страницу
         wn = wb.create_sheet('Итоговая таблица')
         # получаем лист, с которым будем работать
         sheet = wb['Итоговая таблица']
@@ -380,9 +394,12 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet["B10"].font = Font(bold=True)
         sheet["J10"].font = Font(bold=True)
         sheet["K10"].font = Font(bold=True)
+        #Ширина / высота столбцов и колонок
         sheet.row_dimensions[10].height = 48
         sheet.column_dimensions['A'].width = 18
         ns.font = Font(bold=False, size=20, b=False)
+
+        
         #### pass    заполнение данных   ######
         count_peopple = 9
         pos = 0
@@ -423,4 +440,5 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
         sheet[f"E{count_peopple + 15}"].value = 'Б.Б.Ббббб'
         sheet.merge_cells(f"A{count_peopple + 17}:B{count_peopple + 17}")
         sheet[f"A{count_peopple + 17}"].value = '22 января 2024г'
+        #созраняем всё
         wb.save('start.xlsx')
