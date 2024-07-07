@@ -110,6 +110,9 @@ def make1exel(arr_teams, sort_arr_1, sort_arr_2, temp):
     #### pass    заполнение данных   ######
     count_peopple = 9
     count = 0
+    
+    # set_start_time(arr_teams, order)
+    
     for team in arr_teams:
         for partic in team.arr:
             sheet[f"A{count + 11}"] = count + 1

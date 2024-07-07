@@ -134,3 +134,13 @@ def calc_team_competition(teams: list, group: int):
     result.sort(key=lambda team: (team.team_name, team.team_points))
 
     return result
+
+def set_start_time(teams, order):
+    """Устанавливает время старта участникам в соответствии с заданным порядком
+
+    Args:
+        teams (array): 
+        order (array): Порядок старта
+    """
+
+    pass
