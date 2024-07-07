@@ -289,12 +289,16 @@ def create_window(teams_arr: list, is_end: bool):
     else:
         add_team_button = tkinter.Button(
             start_button_frame, text="Добавить команду", command=lambda: create_team_window(root))
-    start_button = tkinter.Button(
-        start_button_frame, text="Начать соревнование", command=lambda: window_rebuild_with_exel_outcome(root, teams_arr, True))
+        start_button = tkinter.Button(
+            start_button_frame, text="Начать соревнование", command=lambda: window_rebuild_with_exel_outcome(root, teams_arr, True))
     start_button_frame.grid(row=1, column=1)
     add_team_button.pack(padx=50, pady=0)
-    start_button.pack(padx=50, pady=5)
-
+    
+    try:
+        start_button.pack(padx=50, pady=5)
+    except:
+        print("Почини меня! Перепиши window.py! (Если что это около 300-ой строчки:)")
+    
     # Запускаем главный цикл обработки событий
     root.mainloop()
 
